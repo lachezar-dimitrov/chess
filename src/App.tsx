@@ -1,29 +1,22 @@
-import React from "react";
-import "./App.css";
+import React from 'react';
+import Board from './components/Board/Board';
 
-class App extends React.Component {
-  render() {
+export default class App extends React.Component {
+  emptyFn = (): void => {
+    throw Error('Not implemented');
+  }
+
+  render(): JSX.Element {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <div className="game">
+        <div className="game-board">
+          <Board />
+        </div>
+        <div className="game-info">
+          <div>{/* status */}</div>
+          <ol>{/* TODO */}</ol>
+        </div>
       </div>
     );
   }
 }
-
-export default App;
