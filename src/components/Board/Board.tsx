@@ -1,15 +1,31 @@
 import React from 'react';
 import Square from '../Square/Square';
 
-export default class Board extends React.Component {
-  renderSquare = (i: number): JSX.Element => <Square value={`${i}`} />
+type Props = {
+  squares: Array<string>
+  onClick: (i: number) => void;
+}
 
-  render(): JSX.Element {
-    const status = 'Next player: X';
+type State = {
+  squares: Array<string>;
+  xIsNext: boolean;
+}
+
+export default class Board extends React.Component<Props, State> {
+  private renderSquare(index: number): JSX.Element {
+    const { squares, onClick } = this.props;
 
     return (
+      <Square
+        value={squares[index]}
+        onClick={() => onClick(index)}
+      />
+    );
+  }
+
+  render(): JSX.Element {
+    return (
       <div>
-        <div className="status">{status}</div>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
