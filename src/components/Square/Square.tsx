@@ -2,36 +2,19 @@ import React from 'react';
 
 type Props = {
   value: string
-};
+  onClick: () => void;
+}
 
-type State = {
-  value: string;
-};
+export default function Square(props: Props): JSX.Element {
+  const { value, onClick } = props;
 
-export default class Square extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      value: '',
-    };
-  }
-
-  private squareClickHandler = (): void => {
-    this.setState({ value: 'X' });
-  }
-
-  render(): JSX.Element {
-    const { value } = this.state;
-
-    return (
-      <button
-        type="button"
-        className="square"
-        onClick={this.squareClickHandler}
-      >
-        {value}
-      </button>
-    );
-  }
+  return (
+    <button
+      type="button"
+      className="square"
+      onClick={onClick}
+    >
+      {value}
+    </button>
+  );
 }
