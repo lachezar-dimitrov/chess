@@ -1,5 +1,5 @@
 import React from 'react';
-import Square from '../Square/Square';
+import Square from './Square/Square';
 
 type Props = {
   squares: Array<string>
