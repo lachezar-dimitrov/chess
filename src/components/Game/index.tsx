@@ -1,9 +1,9 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import Board from './Board/Board';
-import AppStore from '../../store/AppStore';
+import Board from './Board';
+import AppStore from '../../store/app';
 import { calculateWinner } from '../../helpers/CalculateWinner';
-import Moves from './Moves/Moves';
+import Moves from './Moves';
 
 type Props = {
   store: AppStore;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import Game from './components/Game/Game';
-import AppStore from './store/AppStore';
+import Game from './Game';
+import AppStore from '../store/app';
 
 type Props = {
   store: AppStore;
