@@ -1,5 +1,9 @@
 import React from 'react';
-import { Props } from './SquareTypes';
+
+export type Props = {
+  value: string
+  onClick: () => void;
+}
 
 export default function Square(props: Props): JSX.Element {
   const { value, onClick } = props;
