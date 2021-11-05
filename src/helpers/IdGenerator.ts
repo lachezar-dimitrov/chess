@@ -1,9 +1,11 @@
-export class IdGenerator {
-    private static id = 0;
+type IdGeneratorFunction = () => () => number;
 
-    static getId = (): number => {
-      IdGenerator.id += 1;
+export const IdGenerator: IdGeneratorFunction = () => {
+  let id = 0;
 
-      return IdGenerator.id;
-    }
-}
+  return () => {
+    id += 1;
+
+    return id;
+  };
+};
