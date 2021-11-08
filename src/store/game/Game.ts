@@ -1,23 +1,20 @@
-import { makeObservable, observable } from 'mobx';
-import {
-  IBoardStore,
-  IGameInfo,
-  IGameStore,
-} from '../../interfaces/store/IAppStore';
+// import { makeObservable, observable } from 'mobx';
 
-class GameStore implements IGameStore {
-    @observable board: IBoardStore;
+// class GameStore implements IGameStore {
+//     @observable board: IBoardStore;
 
-    @observable gameInfo: IGameInfo;
+//     @observable gameInfo: IGameInfo;
 
-    constructor(board: IBoardStore, gameInfo: IGameInfo) {
-      makeObservable(this);
+//     constructor(board: IBoardStore, gameInfo: IGameInfo) {
+//       makeObservable(this);
 
-      this.board = board;
-      this.gameInfo = gameInfo;
-    }
-}
+//       this.board = board;
+//       this.gameInfo = gameInfo;
+//     }
+// }
 
-const GameStoreInstance = new GameStore();
+// const GameStoreInstance = new GameStore();
 
-export default GameStoreInstance;
+// export default GameStoreInstance;
+
+export {};
