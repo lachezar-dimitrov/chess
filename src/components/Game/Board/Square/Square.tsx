@@ -4,23 +4,24 @@ import { StoreContext } from '../../../StoreProvider/StoreProvider';
 
 type Props = {
   value: string;
+  index: number;
 }
 
 @observer
 export default class Square extends Component<Props> {
   static defaultProps = {
-    value: 0,
+    value: '',
   };
 
   render(): ReactNode {
-    const { value = 0 } = this.props;
+    const { index, value } = this.props;
     const { onClick } = this.context;
 
     return (
       <button
         type="button"
         className="square"
-        onClick={onClick}
+        onClick={() => onClick(index)}
       >
         {value}
       </button>
