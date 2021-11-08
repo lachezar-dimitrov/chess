@@ -1,29 +1,23 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 
-interface Props {
+type Props = {
   children: ReactNode;
 }
 
-interface State {
+type State = {
   hasError: boolean;
-  error: Error
 }
 
 export default class ErrorBoundary extends Component<Props, State> {
-  state: State = {
-    hasError: false,
-    error: {
-      name: '',
-      message: '',
-    },
-  };
+  constructor(props: Props) {
+    super(props);
 
-  static getDerivedStateFromError(error: Error): State {
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(): State {
     // Update state so the next render will show the fallback UI.
-    return {
-      hasError: true,
-      error,
-    };
+    return { hasError: true };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
