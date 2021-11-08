@@ -14,10 +14,17 @@ class AppStore implements IAppStore {
   @observable
   xIsNext: boolean;
 
-  constructor(squares: Array<ISquare>, xIsNext: boolean) {
+  constructor(xIsNext: boolean) {
     makeObservable(this);
+    // console.log({ squares });
 
-    this.squares = squares;
+    this.squares = Array<ISquare>(9)
+      .fill({ id: '0', value: '0' })
+      .map(() => ({
+        id: generateId().toString(),
+        value: '',
+      }));
+
     this.xIsNext = xIsNext;
     this.value = 0;
   }
@@ -28,22 +35,18 @@ class AppStore implements IAppStore {
 
     const boardValues = squares.map((square) => square.value);
 
+    // console.log('dd');
+
     if (calculateWinner(boardValues) || boardValues[index]) {
       return;
     }
-
-    boardValues[index] = xIsNext ? 'X' : 'O';
+    // console.log({ squares: squares[index] });
+    squares[index].value = xIsNext ? 'X' : 'O';
 
     this.xIsNext = !xIsNext;
   }
 }
 
-const AppStoreInstance = new AppStore(
-  Array<ISquare>(9).map(() => ({
-    id: generateId().toString(),
-    value: '',
-  })),
-  true,
-);
+const AppStoreInstance = new AppStore(false);
 
 export default AppStoreInstance;
