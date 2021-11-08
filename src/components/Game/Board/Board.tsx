@@ -1,21 +1,30 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import Square from './Square/Square';
-import { Squares } from '../../../types/common';
+import { StoreContext } from '../../StoreProvider/StoreProvider';
+import { ISquare } from '../../../interfaces/common/square';
 
 interface Props {
-  squares?: Squares;
+  squares?: Array<ISquare>;
 }
 
 @observer
 export default class Board extends Component<Props> {
   render(): React.ReactNode {
-    const { squares } = this.props;
+    const { squares } = this.context;
+    // console.log({ squares });
 
     return (
       <div className="game-board">
-        {squares?.map(() => <Square />)}
+        {squares.map((square: string) => (
+          <Square
+            key={square}
+            value={square}
+          />
+        ))}
       </div>
     );
   }
 }
+
+Board.contextType = StoreContext;

@@ -1,6 +1,6 @@
 type IdGeneratorFunction = () => () => number;
 
-export const IdGenerator: IdGeneratorFunction = () => {
+export const generateId: IdGeneratorFunction = () => {
   let id = 0;
 
   return () => {

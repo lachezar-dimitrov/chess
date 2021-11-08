@@ -1,11 +1,12 @@
 import { action, makeObservable, observable } from 'mobx';
-import { calculateWinner } from '../helpers/CalculateWinner';
+import { generateId } from '../helpers/IdGenerator';
+import { ISquare } from '../interfaces/common/square';
 import { IAppStore } from '../interfaces/store/IAppStore';
-import { Squares } from '../types/common';
+import { calculateWinner } from '../helpers/CalculateWinner';
 
 class AppStore implements IAppStore {
   @observable
-  squares: Squares;
+  squares: Array<ISquare>;
 
   @observable
   value: number;
@@ -13,7 +14,7 @@ class AppStore implements IAppStore {
   @observable
   xIsNext: boolean;
 
-  constructor(squares: Squares, xIsNext: boolean) {
+  constructor(squares: Array<ISquare>, xIsNext: boolean) {
     makeObservable(this);
 
     this.squares = squares;
@@ -25,16 +26,24 @@ class AppStore implements IAppStore {
   onClick = (index: number): void => {
     const { squares, xIsNext } = this;
 
-    if (calculateWinner(squares) || squares[index]) {
+    const boardValues = squares.map((square) => square.value);
+
+    if (calculateWinner(boardValues) || boardValues[index]) {
       return;
     }
 
-    squares[index] = xIsNext ? 'X' : 'O';
+    boardValues[index] = xIsNext ? 'X' : 'O';
 
     this.xIsNext = !xIsNext;
   }
 }
 
-const AppStoreInstance = new AppStore(Array(9).fill(''), true);
+const AppStoreInstance = new AppStore(
+  Array<ISquare>(9).map(() => ({
+    id: generateId().toString(),
+    value: '',
+  })),
+  true,
+);
 
 export default AppStoreInstance;

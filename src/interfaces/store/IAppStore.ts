@@ -1,8 +1,8 @@
-import { Squares } from '../../types/common';
+import { ISquare } from '../common/square';
 
 export interface IAppStore {
   xIsNext: boolean;
-  squares: Squares;
+  squares: Array<ISquare>;
   value: number;
   onClick: (n: number) => void;
 }

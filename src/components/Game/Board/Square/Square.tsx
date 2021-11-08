@@ -1,29 +1,26 @@
 import { observer } from 'mobx-react';
 import React, { ReactNode, Component } from 'react';
-import {
-  storeInjector,
-} from '../../../../containers/StoreInjector/StoreInjector';
+import { StoreContext } from '../../../StoreProvider/StoreProvider';
 
 type Props = {
-  value?: number;
-  // onClick?: (index: number) => void;
+  value: string;
 }
 
 @observer
-class Square extends Component<Props> {
-  // static defaultProps = {
-  //   value: 0,
-  // };
+export default class Square extends Component<Props> {
+  static defaultProps = {
+    value: 0,
+  };
 
   render(): ReactNode {
     const { value = 0 } = this.props;
-    // const { onClick } = this.context;
+    const { onClick } = this.context;
 
     return (
       <button
         type="button"
         className="square"
-        // onClick={onClick}
+        onClick={onClick}
       >
         {value}
       </button>
@@ -31,8 +28,4 @@ class Square extends Component<Props> {
   }
 }
 
-// Square.contextType = StoreContext;
-
-export default storeInjector<Props>((store) => ({
-  value: store.value,
-}), Square);
+Square.contextType = StoreContext;
