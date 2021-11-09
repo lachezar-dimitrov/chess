@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react';
 import React, { ReactNode, Component } from 'react';
 import { StoreContext } from '../../../StoreProvider/StoreProvider';
+// import './square.less';
 
 type Props = {
   value: string;

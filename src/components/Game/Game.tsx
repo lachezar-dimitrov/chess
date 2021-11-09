@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import Board from './Board/Board';
+import './game.less';
 
 @observer
 export default class Game extends React.Component {
