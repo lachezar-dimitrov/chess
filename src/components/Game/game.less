@@ -1,7 +1,12 @@
+@import '../../styles/variables.less';
+@import '../../styles/mixins.less';
 @import './Board/board.less';
 @import './GameInfo/game-info.less';
 
 .game-container {
-    display: flex;
-    flex-direction: row;
+   height: @game-height;
+   width: @game-width;
+   background-color: red;
+
+   .center-element();
 }

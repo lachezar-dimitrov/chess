@@ -1,24 +1,14 @@
+@import '../../../../styles/variables.less';
+
 .square {
-    background: #fff;
-    border: 1px solid #999;
-    float: left;
-    font-size: 24px;
+    border: 6px solid @primary-border-color;
+    border-radius: 2px;
+    font-family: Helvetica;
     font-weight: bold;
-    line-height: 34px;
-    height: 150px;
-    width: 200px;
-    background-color: blue;
-    margin-right: -1px;
-    margin-top: -1px;
-    padding: 0;
-    text-align: center;
-    width: 34px;
-}
-
-.square:focus {
-    outline: none;
-}
-
-.kbd-navigation .square:focus {
-    background: #ddd;
+    font-size: 5em;
+    height: @square-height;
+    width: @square-width;
+    justify-content: center;
+    align-items: center;
+    background-color: @square-background;
 }
