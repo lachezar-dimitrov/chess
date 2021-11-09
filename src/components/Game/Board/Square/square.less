@@ -1,14 +1,21 @@
+@import '../../../../styles/mixins.less';
 @import '../../../../styles/variables.less';
 
 .square {
-    border: 6px solid @primary-border-color;
     border-radius: 2px;
     font-family: Helvetica;
     font-weight: bold;
-    font-size: 5em;
-    height: @square-height;
-    width: @square-width;
-    justify-content: center;
-    align-items: center;
-    background-color: @square-background;
+    font-size: 10em;
+    height: 100%;
+    width: 100%;
+    background-color: @accent-color-3;
+
+    .bordered();
+
+    &:focus {
+        outline: none;
+    }
 }
+
+
+

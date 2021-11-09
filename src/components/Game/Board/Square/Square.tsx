@@ -10,15 +10,21 @@ type Props = {
 
 @observer
 export default class Square extends Component<Props> {
-  render(): ReactNode {
-    const { index, value = '' } = this.props;
+  private eventHandler = (): void => {
+    const { index } = this.props;
     const { onClick } = this.context;
+
+    onClick(index);
+  }
+
+  render(): ReactNode {
+    const { value = '' } = this.props;
 
     return (
       <button
         type="button"
         className="square"
-        onClick={() => onClick(index)}
+        onClick={this.eventHandler}
       >
         {value}
       </button>

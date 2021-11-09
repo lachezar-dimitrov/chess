@@ -2,20 +2,14 @@
 @import './Square/square.less';
 
 .board {
-    width: 80%;
-	height: 80%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto auto;
 	margin: 0 auto;
+    width: @board-height;
+	height: @board-height;
     background-color: #34495e;
     border: 6px solid @primary-border-color;
     border-radius: 10px;
-    background-color: @primary-color;
-
-    .board-row {
-        width: 100%;
-        height: 33.33%;
-        display: flex;
-        box-sizing: border-box;
-        justify-content: space-around;
-        padding: 10px;
-    } 
+    background-color: @accent-color-1;
 }
