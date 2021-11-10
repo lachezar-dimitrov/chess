@@ -2,15 +2,39 @@
 @import '../../../../styles/variables.less';
 
 .box {
-    border-radius: 2px;
+    border: none;
     font-family: Helvetica;
     font-weight: bold;
-    font-size: 10em;
-    height: 100%;
-    width: 100%;
-    background-color: @accent-color-3;
+    width: @box-width;
+    height: @box-height;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    font-size: @symbols-font-size;
+    background-color: @color-negative-1;
+    box-shadow: 2px 2px 10px @color-negative-2;
+    
+    &.selectable {
+        cursor: pointer; 
+        transform: scale(1.02);
 
-    .bordered();
+        &.positive-select:hover {
+            background-color: @color-positive;
+        }
+    
+        &.negative-select:hover{
+            background-color: @color-negative;
+        }
+    }
+
+    &.negative {
+        color: @color-positive;
+        background-color: @color-negative;
+    }
+
+    &.positive {
+        color: @color-negative;
+        background-color: @color-positive;
+    }
 
     &:focus {
         outline: none;
