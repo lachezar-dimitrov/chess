@@ -11,7 +11,7 @@
 // ): ComponentType<PropTypes> => {
 //   @observer
 //   class StoreInjector extends Component<PropTypes> {
-//     render(): React.ReactNode {
+//     render(): ReactNode {
 //       const storeProps = selectorFunction(this.context, this.props);
 
 //       const props = {
