@@ -5,7 +5,7 @@ import { StoreContext } from '../../../StoreProvider/StoreProvider';
 @observer
 export default class History extends Component {
   render(): ReactNode {
-    // const { history } = this.context;
+    // const { history } = this.context as IAppStore;
 
     return (
       <ol />

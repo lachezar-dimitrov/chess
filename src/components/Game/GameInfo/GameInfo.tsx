@@ -1,48 +1,33 @@
-// import React from 'react';
-// import { observer } from 'mobx-react';
-// import {
-//   storeInjector,
-// } from '../../../containers/StoreInjector/StoreInjector';
-// import MovesHistory from './MovesHistory/MovesHistory';
+import React, { Component, ReactNode } from 'react';
+import { observer } from 'mobx-react';
+import { IAppStore } from '../../../interfaces/AppStore';
+import { O, WINNER_MESSAGE, X } from '../../../constants/texts';
+import { StoreContext } from '../../StoreProvider/StoreProvider';
+import History from './History/History';
 
-// interface Props {
-//   xIsNext?: boolean;
-//   history?: Array<IMoveStore>;
-//   step?: number;
-// }
+@observer
+export default class GameInfo extends Component {
+  render(): ReactNode {
+    const {
+      xIsNext,
+      winner,
+    } = this.context as IAppStore;
 
-// @observer
-// class GameInfo extends React.Component<Props> {
-//   render(): React.ReactNode {
-//     const {
-//       xIsNext,
-//       history,
-//       step,
-//     } = this.props;
-//     const current = history[step];
-//     const winner = calculateWinner(current.squares);
+    let status;
 
-//     let status;
+    if (winner) {
+      status = `${WINNER_MESSAGE} ${winner}`;
+    } else {
+      status = `Next player: ${xIsNext ? X : O}`;
+    }
 
-//     if (winner) {
-//       status = `Winner: ${winner}`;
-//     } else {
-//       status = `Next player: ${xIsNext ? 'X' : 'O'}`;
-//     }
+    return (
+      <div className="game-info">
+        <div>{status}</div>
+        <History />
+      </div>
+    );
+  }
+}
 
-//     return (
-//       <div className="game-info">
-//         <div>{status}</div>
-//         <MovesHistory />
-//       </div>
-//     );
-//   }
-// }
-
-// export default storeInjector<Props>((store) => ({
-//   xIsNext: store.xIsNext,
-//   history: store.history,
-//   step: store.step,
-// }), GameInfo);
-
-export {};
+GameInfo.contextType = StoreContext;
