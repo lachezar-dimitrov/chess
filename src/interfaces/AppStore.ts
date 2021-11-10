@@ -1,11 +1,12 @@
 import { IHistory } from './History';
-import { IBox } from './Box';
+import { IPLayerSymbols } from './PlayerSymbols';
 
 export interface IAppStore {
   turns: number;
   winner: string;
   xIsNext: boolean;
   history: IHistory;
-  board: Array<IBox>;
-  onBoxClick: (n: number) => void;
+  board: Array<string>;
+  playerSymbols: IPLayerSymbols;
+  handleBoxClick: (n: number) => void;
 }
