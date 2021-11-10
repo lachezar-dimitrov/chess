@@ -1,52 +1,67 @@
 import { action, makeObservable, observable } from 'mobx';
+import { O, X } from '../constants/texts';
+import { IBox } from '../interfaces/Box';
+import { IHistory } from '../interfaces/History';
+import { IAppStore } from '../interfaces/AppStore';
 import { generateId } from '../helpers/IdGenerator';
-import { ISquare } from '../interfaces/common/square';
-import { IAppStore } from '../interfaces/store/IAppStore';
 import { calculateWinner } from '../helpers/CalculateWinner';
 
 class AppStore implements IAppStore {
   @observable
-  squares: Array<ISquare>;
-
-  @observable
-  value: number;
-
-  @observable
   xIsNext: boolean;
 
-  constructor(xIsNext: boolean) {
+  @observable
+  winner: string;
+
+  @observable
+  turns: number;
+
+  @observable
+  board: Array<IBox>;
+
+  @observable
+  history: IHistory;
+
+  constructor(board: Array<IBox>, history: IHistory) {
     makeObservable(this);
-    // console.log({ squares });
 
-    this.squares = Array<ISquare>(9)
-      .fill({ id: '0', value: '0' })
-      .map(() => ({
-        id: generateId().toString(),
-        value: '',
-      }));
+    this.board = [...board];
+    this.history = { ...history };
 
-    this.xIsNext = xIsNext;
-    this.value = 0;
+    this.turns = 0;
+    this.winner = '';
+    this.xIsNext = false;
   }
 
   @action
-  onClick = (index: number): void => {
-    const { squares, xIsNext } = this;
+  onBoxClick = (index: number): void => {
+    this.turns += 1;
 
-    const boardValues = squares.map((square) => square.value);
-
-    // console.log('dd');
+    const boardValues = this.board.map((square) => square.value);
 
     if (calculateWinner(boardValues) || boardValues[index]) {
       return;
     }
-    // console.log({ squares: squares[index] });
-    squares[index].value = xIsNext ? 'X' : 'O';
 
-    this.xIsNext = !xIsNext;
+    this.board[index].value = this.xIsNext ? X : O;
+
+    this.xIsNext = !this.xIsNext;
   }
 }
 
-const AppStoreInstance = new AppStore(false);
+const board = Array<IBox>(9)
+  .fill({ id: '0', value: '0' })
+  .map(() => ({
+    id: generateId().toString(),
+    value: '',
+  }));
+
+const history = {
+  xWins: 0,
+  oWins: 0,
+  draws: 0,
+};
+
+const AppStoreInstance = new AppStore(board, history);
 
 export default AppStoreInstance;
