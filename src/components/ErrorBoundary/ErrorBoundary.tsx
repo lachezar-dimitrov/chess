@@ -8,6 +8,11 @@ type State = {
   hasError: boolean;
 }
 
+/**
+ * Error boundaries work like a JavaScript catch {} block, but for components.
+ * Only class components can be error boundaries.
+ * Error boundaries only catch errors in the components below them in the tree.
+ */
 export default class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);

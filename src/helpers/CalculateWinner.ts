@@ -1,7 +1,7 @@
 /**
  * Given an array of 9 squares, this function will check for a winner.
  *
- * @returns 'X', 'O', or null as appropriate.
+ * @returns The symbol of the player that won the game or an empty string
 */
 export const calculateWinner = (squares: Array<string>): string => {
   const lines = [
