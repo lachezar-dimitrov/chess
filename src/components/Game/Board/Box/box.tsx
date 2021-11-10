@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react';
 import React, { ReactNode, Component } from 'react';
+import { IAppStore } from '../../../../interfaces/AppStore';
 import { StoreContext } from '../../../StoreProvider/StoreProvider';
 
 type Props = {
@@ -11,9 +12,9 @@ type Props = {
 export default class Box extends Component<Props> {
   private eventHandler = (): void => {
     const { index } = this.props;
-    const { onClick } = this.context;
+    const { onBoxClick } = this.context as IAppStore;
 
-    onClick(index);
+    onBoxClick(index);
   }
 
   render(): ReactNode {

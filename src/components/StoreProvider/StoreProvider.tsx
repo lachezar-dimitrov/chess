@@ -1,4 +1,4 @@
-import React, { createContext, Component, ReactNode } from 'react';
+import React, { ReactNode, createContext, Component } from 'react';
 import { observer } from 'mobx-react';
 import { IAppStore } from '../../interfaces/AppStore';
 
@@ -11,7 +11,7 @@ export const StoreContext = createContext<IAppStore | null>(null);
 
 @observer
 export default class StoreProvider extends Component<Props> {
-  render(): React.ReactNode {
+  render(): ReactNode {
     const { children, store } = this.props;
 
     return (

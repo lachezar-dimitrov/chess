@@ -1,17 +1,17 @@
 import React, { Component, ReactNode } from 'react';
 import { observer } from 'mobx-react';
 import Box from './Box/box';
-import { IBox } from '../../../interfaces/Box';
 import { StoreContext } from '../../StoreProvider/StoreProvider';
+import { IAppStore } from '../../../interfaces/AppStore';
 
 @observer
 export default class Board extends Component {
   render(): ReactNode {
-    const { squares }: { squares: Array<IBox>} = this.context;
+    const { board } = this.context as IAppStore;
 
     return (
       <div className="board">
-        {squares.map((
+        {board.map((
           { id, value },
           index: number,
         ) => (
