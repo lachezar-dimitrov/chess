@@ -1,12 +1,15 @@
 import { action, makeObservable, observable } from 'mobx';
 import { O, X } from '../constants/texts';
-import { IBox } from '../interfaces/Box';
+import { BoardType } from '../types/Board';
 import { IHistory } from '../interfaces/History';
 import { IAppStore } from '../interfaces/AppStore';
-import { generateId } from '../helpers/IdGenerator';
 import { calculateWinner } from '../helpers/CalculateWinner';
+import { IPLayerSymbols } from '../interfaces/PlayerSymbols';
 
 class AppStore implements IAppStore {
+  @observable
+  playerSymbols: IPLayerSymbols;
+
   @observable
   xIsNext: boolean;
 
@@ -17,15 +20,20 @@ class AppStore implements IAppStore {
   turns: number;
 
   @observable
-  board: Array<IBox>;
+  board: BoardType;
 
   @observable
   history: IHistory;
 
-  constructor(board: Array<IBox>, history: IHistory) {
+  constructor(
+    board: BoardType,
+    playerSymbols: IPLayerSymbols,
+    history: IHistory,
+  ) {
     makeObservable(this);
 
     this.board = [...board];
+    this.playerSymbols = { ...playerSymbols };
     this.history = { ...history };
 
     this.turns = 0;
@@ -34,27 +42,51 @@ class AppStore implements IAppStore {
   }
 
   @action
-  onBoxClick = (index: number): void => {
-    this.turns += 1;
+  handleBoxClick = (index: number): void => {
+    const {
+      winner,
+      xIsNext,
+      playerSymbols,
+      isBoxAlreadyClicked,
+    } = this;
 
-    const boardValues = this.board.map((square) => square.value);
+    const {
+      xPlayer,
+      oPlayer,
+    } = playerSymbols;
 
-    if (calculateWinner(boardValues) || boardValues[index]) {
+    if (winner || isBoxAlreadyClicked(index)) {
       return;
     }
 
-    this.board[index].value = this.xIsNext ? X : O;
+    this.turns += 1;
+
+    if (this.turns === 9) {
+      this.history.draws += 1;
+    }
+
+    this.board[index] = xIsNext ? xPlayer : oPlayer;
+
+    this.winner = calculateWinner(this.board);
+
+    if (this.winner === xPlayer) {
+      this.history.xWins += 1;
+    } else if (this.winner === oPlayer) {
+      this.history.oWins += 1;
+    }
 
     this.xIsNext = !this.xIsNext;
   }
+
+  private isBoxAlreadyClicked = (i: number): boolean => Boolean(this.board[i]);
 }
 
-const board = Array<IBox>(9)
-  .fill({ id: '0', value: '0' })
-  .map(() => ({
-    id: generateId().toString(),
-    value: '',
-  }));
+const board: BoardType = Array(9).fill('');
+
+const playerSymbols = {
+  xPlayer: 'X',
+  oPlayer: 'O',
+};
 
 const history = {
   xWins: 0,
@@ -62,6 +94,6 @@ const history = {
   draws: 0,
 };
 
-const AppStoreInstance = new AppStore(board, history);
+const AppStoreInstance = new AppStore(board, playerSymbols, history);
 
 export default AppStoreInstance;
