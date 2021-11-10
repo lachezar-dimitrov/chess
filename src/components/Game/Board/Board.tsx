@@ -1,13 +1,13 @@
 import React, { Component, ReactNode } from 'react';
 import { observer } from 'mobx-react';
-import Square from './Square/Square';
+import Box from './Box/box';
+import { IBox } from '../../../interfaces/Box';
 import { StoreContext } from '../../StoreProvider/StoreProvider';
-import { ISquare } from '../../../interfaces/common/square';
 
 @observer
 export default class Board extends Component {
   render(): ReactNode {
-    const { squares }: { squares: Array<ISquare>} = this.context;
+    const { squares }: { squares: Array<IBox>} = this.context;
 
     return (
       <div className="board">
@@ -15,7 +15,7 @@ export default class Board extends Component {
           { id, value },
           index: number,
         ) => (
-          <Square
+          <Box
             key={id}
             index={index}
             value={value}

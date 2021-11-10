@@ -1,6 +1,6 @@
 import React, { createContext, Component, ReactNode } from 'react';
 import { observer } from 'mobx-react';
-import { IAppStore } from '../../interfaces/store/IAppStore';
+import { IAppStore } from '../../interfaces/AppStore';
 
 interface Props {
   store: IAppStore;
