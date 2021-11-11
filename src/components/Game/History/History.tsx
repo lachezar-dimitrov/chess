@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import classNames from 'classnames';
 import {
   DRAW_MESSAGE,
-  NEXT_PLAYER, O, WINNER_MESSAGE, X,
+  NEXT_PLAYER, WINNER_MESSAGE,
 } from '../../../constants/texts';
 import AppStore from '../../../store/AppStore';
 import { StoreContext } from '../../StoreProvider/StoreProvider';

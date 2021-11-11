@@ -4,23 +4,17 @@ import History from './models/History';
 import PLayerSymbols from './models/PlayerSymbols';
 
 export default class AppStore {
-  @observable
-  playerSymbols: PLayerSymbols;// Should be on the same row as the prop
+  @observable playerSymbols: PLayerSymbols;
 
-  @observable
-  xIsNext: boolean; // don no use bool
+  @observable xIsNext: boolean; // don no use bool
 
-  @observable
-  winner: string;
+  @observable winner: string;
 
-  @observable
-  turns: number;
+  @observable turns: number;
 
-  @observable
-  board: Array<string>;
+  @observable board: Array<string>;
 
-  @observable
-  history: History;
+  @observable history: History;
 
   constructor() {
     makeObservable(this);
@@ -33,8 +27,7 @@ export default class AppStore {
     this.playerSymbols = new PLayerSymbols();
   }
 
-  @action // should be on the same row / do not use arrow fn
-  handleBoxClick = (index: number, value: string): void => {
+  @action handleBoxClick(index: number, value: string): void {
     const {
       winner,
       playerSymbols,
@@ -69,5 +62,7 @@ export default class AppStore {
     this.xIsNext = !this.xIsNext; // Think about a better way
   }
 
-  private isBoxAlreadyClicked = (i: number): boolean => Boolean(this.board[i]);
+  private isBoxAlreadyClicked(i: number): boolean {
+    return Boolean(this.board[i]);
+  }
 }
