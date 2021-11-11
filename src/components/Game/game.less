@@ -1,12 +1,40 @@
-@import '../../styles/variables.less';
 @import '../../styles/mixins.less';
+
 @import './Board/board.less';
+@import './History/history.less';
 @import './GameInfo/game-info.less';
 
 .game-container {
+   display: grid;
+   grid-template-columns: 2fr 4fr;
+   grid-template-areas: "info board"
+                        "history board";
+   align-items: center;
    height: @game-height;
    width: @game-width;
-   border-radius: 10px;
+
+   .border-radius(10px);
+
+   .game-info {
+      grid-area: info;
+   }
+
+   .history {
+      grid-area: history;
+   }
+
+   .board {
+      grid-area: board;
+   }
+
+   .game-info, .history {
+      padding: 30px;
+      color: @text-color-1;
+
+      .border-radius(40px);
+      .bordered(@text-color-1);
+      .box-shadow(@text-color-1);
+   }
 
    .center-element();
 }
