@@ -2,7 +2,7 @@ import React, { ReactNode, createContext, Component } from 'react';
 import { observer } from 'mobx-react';
 import AppStore from '../../store/AppStore';
 
-interface Props {
+type Props = {
   store: AppStore;
   children: ReactNode;
 }

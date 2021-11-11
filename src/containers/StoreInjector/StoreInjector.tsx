@@ -1,7 +1,6 @@
 // import React, { Component, ComponentType } from 'react';
 // import { observer } from 'mobx-react';
 // import { StoreContext } from '../../components/StoreProvider/StoreProvider';
-// import { IAppStore } from '../../interfaces/store/IAppStore';
 
 // type SelectorFunctionType<S, P> = (store: S, props?: P) => P;
 
