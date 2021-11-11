@@ -22,12 +22,13 @@ export default class AppStore {
     this.turns = 0;
     this.winner = '';
     this.xIsNext = false;
-    this.history = new History();
     this.board = Array(9).fill('');
+
+    this.history = new History();
     this.playerSymbols = new PLayerSymbols();
   }
 
-  @action handleBoxClick(index: number, value: string): void {
+  @action.bound handleBoxClick(index: number, value: string): void {
     const {
       winner,
       playerSymbols,
@@ -62,7 +63,7 @@ export default class AppStore {
     this.xIsNext = !this.xIsNext; // Think about a better way
   }
 
-  private isBoxAlreadyClicked(i: number): boolean {
+  @action.bound private isBoxAlreadyClicked(i: number): boolean {
     return Boolean(this.board[i]);
   }
 }
