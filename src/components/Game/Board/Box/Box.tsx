@@ -1,32 +1,46 @@
-import React, { FunctionComponent } from 'react';
+import React, { Component, ReactNode } from 'react';
+import { observer } from 'mobx-react';
 import classNames from 'classnames';
+import { StoreContext } from '../../../StoreProvider/StoreProvider';
+import AppStore from '../../../../store/AppStore';
 
 type Props = {
+  index: number;
   value: string;
-  className: string;
-  onClick: () => void
 };
 
-const Box: FunctionComponent<Props> = (props) => {
-  const {
-    // showValue = false,
-    value = '',
-    className,
-    onClick = () => null,
-  } = props;
+@observer
+export default class Box extends Component<Props> {
+  render(): ReactNode {
+    const { value, index } = this.props;
+    const {
+      winner,
+      xIsNext,
+      playerSymbols,
+      handleBoxClick,
+    } = this.context as AppStore;
 
-  return (
-    <button
-      type="button"
-      className={classNames('box', className)}
-      onClick={onClick}
-      // onMouseOver={onClick}
-      // onFocus={onClick}
-    >
-      {/* {5 === 6 ? value : null} */}
-      {value}
-    </button>
-  );
-};
+    const { xPlayer, oPlayer } = playerSymbols;
+    const boxValue = xIsNext ? xPlayer : oPlayer;
 
-export default Box;
+    const handleClick = (): void => handleBoxClick(index, boxValue);
+
+    return (
+      <button
+        type="button"
+        className={classNames('box', {
+          'negative-select': xIsNext,
+          'positive-select': !xIsNext,
+          selectable: !value && !winner,
+          negative: value === xPlayer,
+          positive: value === oPlayer,
+        })}
+        onClick={handleClick}
+      >
+        {value}
+      </button>
+    );
+  }
+}
+
+Box.contextType = StoreContext;
