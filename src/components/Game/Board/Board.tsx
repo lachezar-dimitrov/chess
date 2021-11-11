@@ -3,8 +3,8 @@ import { observer } from 'mobx-react';
 import classNames from 'classnames';
 import Box from './Box/Box';
 import { StoreContext } from '../../StoreProvider/StoreProvider';
-import { IAppStore } from '../../../interfaces/AppStore';
 import { generateId } from '../../../helpers/IdGenerator';
+import AppStore from '../../../store/AppStore';
 
 @observer
 export default class Board extends Component {
@@ -14,11 +14,12 @@ export default class Board extends Component {
       xIsNext,
       playerSymbols,
       handleBoxClick,
-    } = this.context as IAppStore;
+    } = this.context as AppStore;
 
     const { xPlayer, oPlayer } = playerSymbols;
+    const value = xIsNext ? xPlayer : oPlayer;
 
-    const handleClick = (): void => handleBoxClick(index);
+    const handleClick = (): void => handleBoxClick(index, value);
 
     return (
       <Box
@@ -37,7 +38,7 @@ export default class Board extends Component {
   }
 
   render(): ReactNode {
-    const { board } = this.context as IAppStore;
+    const { board } = this.context as AppStore;
 
     return (
       <div className="board">

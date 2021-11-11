@@ -5,7 +5,7 @@ import {
   DRAW_MESSAGE,
   NEXT_PLAYER, O, WINNER_MESSAGE, X,
 } from '../../../constants/texts';
-import { IAppStore } from '../../../interfaces/AppStore';
+import AppStore from '../../../store/AppStore';
 import { StoreContext } from '../../StoreProvider/StoreProvider';
 
 @observer
@@ -16,7 +16,7 @@ export default class History extends Component {
       winner,
       history,
       playerSymbols,
-    } = this.context as IAppStore;
+    } = this.context as AppStore;
 
     const { xPlayer, oPlayer } = playerSymbols;
 

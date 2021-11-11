@@ -8,14 +8,22 @@ type Props = {
 };
 
 const Box: FunctionComponent<Props> = (props) => {
-  const { value = '', className, onClick = () => null } = props;
+  const {
+    // showValue = false,
+    value = '',
+    className,
+    onClick = () => null,
+  } = props;
 
   return (
     <button
       type="button"
       className={classNames('box', className)}
       onClick={onClick}
+      // onMouseOver={onClick}
+      // onFocus={onClick}
     >
+      {/* {5 === 6 ? value : null} */}
       {value}
     </button>
   );

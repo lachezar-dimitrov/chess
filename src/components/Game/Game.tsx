@@ -1,8 +1,9 @@
 import React, { Component, ReactNode } from 'react';
 import { observer } from 'mobx-react';
 import Board from './Board/Board';
-import GameInfo from './GameInfo/GameInfo';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
+import History from './History/History';
+import GameInfo from './GameInfo/GameInfo';
 
 @observer
 export default class Game extends Component {
@@ -10,10 +11,13 @@ export default class Game extends Component {
     return (
       <div className="game-container">
         <ErrorBoundary>
-          <Board />
+          <GameInfo />
         </ErrorBoundary>
         <ErrorBoundary>
-          <GameInfo />
+          <History />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <Board />
         </ErrorBoundary>
       </div>
     );
