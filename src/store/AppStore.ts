@@ -1,17 +1,14 @@
 import { action, makeObservable, observable } from 'mobx';
-import { O, X } from '../constants/texts';
-import { BoardType } from '../types/Board';
-import { IHistory } from '../interfaces/History';
-import { IAppStore } from '../interfaces/AppStore';
 import { calculateWinner } from '../helpers/CalculateWinner';
-import { IPLayerSymbols } from '../interfaces/PlayerSymbols';
+import History from './models/History';
+import PLayerSymbols from './models/PlayerSymbols';
 
-class AppStore implements IAppStore {
+export default class AppStore {
   @observable
-  playerSymbols: IPLayerSymbols;
+  playerSymbols: PLayerSymbols;// Should be on the same row as the prop
 
   @observable
-  xIsNext: boolean;
+  xIsNext: boolean; // don no use bool
 
   @observable
   winner: string;
@@ -20,32 +17,26 @@ class AppStore implements IAppStore {
   turns: number;
 
   @observable
-  board: BoardType;
+  board: Array<string>;
 
   @observable
-  history: IHistory;
+  history: History;
 
-  constructor(
-    board: BoardType,
-    playerSymbols: IPLayerSymbols,
-    history: IHistory,
-  ) {
+  constructor() {
     makeObservable(this);
-
-    this.board = [...board];
-    this.playerSymbols = { ...playerSymbols };
-    this.history = { ...history };
 
     this.turns = 0;
     this.winner = '';
     this.xIsNext = false;
+    this.history = new History();
+    this.board = Array(9).fill('');
+    this.playerSymbols = new PLayerSymbols();
   }
 
-  @action
-  handleBoxClick = (index: number): void => {
+  @action // should be on the same row / do not use arrow fn
+  handleBoxClick = (index: number, value: string): void => {
     const {
       winner,
-      xIsNext,
       playerSymbols,
       isBoxAlreadyClicked,
     } = this;
@@ -65,7 +56,7 @@ class AppStore implements IAppStore {
       this.history.draws += 1;
     }
 
-    this.board[index] = xIsNext ? xPlayer : oPlayer;
+    this.board[index] = value;
 
     this.winner = calculateWinner(this.board);
 
@@ -75,25 +66,8 @@ class AppStore implements IAppStore {
       this.history.oWins += 1;
     }
 
-    this.xIsNext = !this.xIsNext;
+    this.xIsNext = !this.xIsNext; // Think about a better way
   }
 
   private isBoxAlreadyClicked = (i: number): boolean => Boolean(this.board[i]);
 }
-
-const board: BoardType = Array(9).fill('');
-
-const playerSymbols = {
-  xPlayer: 'X',
-  oPlayer: 'O',
-};
-
-const history = {
-  xWins: 0,
-  oWins: 0,
-  draws: 0,
-};
-
-const AppStoreInstance = new AppStore(board, playerSymbols, history);
-
-export default AppStoreInstance;
