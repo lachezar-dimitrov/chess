@@ -1,9 +1,13 @@
+import { makeObservable, observable } from 'mobx';
+
 export default class Board {
     private readonly lines: Array<Array<number>>;
 
-    squares: Array<string>;
+    @observable squares: Array<string>;
 
     constructor() {
+      makeObservable(this);
+
       this.lines = [
         [0, 1, 2],
         [3, 4, 5],

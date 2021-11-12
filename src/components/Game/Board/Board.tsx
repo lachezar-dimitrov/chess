@@ -1,6 +1,7 @@
 import React, { Component, ReactNode } from 'react';
 import { observer } from 'mobx-react';
 import { StoreContext } from '../../StoreProvider/StoreProvider';
+import { generateUniqueKey } from '../../../helpers/KeyGenerator';
 import Box from './Box/Box';
 import AppStore from '../../../store/AppStore';
 
@@ -8,13 +9,13 @@ import AppStore from '../../../store/AppStore';
 export default class Board extends Component {
   render(): ReactNode {
     const { board } = this.context as AppStore;
+    // console.log({ board });
 
     return (
       <div className="board">
         {board.squares.map((box, index) => (
           <Box
-            // eslint-disable-next-line react/no-array-index-key
-            key={`${index}-box`}
+            key={generateUniqueKey()}
             index={index}
             value={box}
           />
