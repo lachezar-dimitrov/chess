@@ -1,29 +1,27 @@
+/* eslint-disable lines-between-class-members */
 import { action, makeObservable, observable } from 'mobx';
-import { calculateWinner } from '../helpers/CalculateWinner';
+import Board from './models/Board';
 import History from './models/History';
 import PLayerSymbols from './models/PlayerSymbols';
 
 export default class AppStore {
-  @observable playerSymbols: PLayerSymbols;
-
+  @observable turns: number;
+  @observable winner: string;
   @observable xIsNext: boolean; // don no use bool
 
-  @observable winner: string;
-
-  @observable turns: number;
-
-  @observable board: Array<string>;
-
+  @observable board: Board;
   @observable history: History;
+  @observable playerSymbols: PLayerSymbols;
 
   constructor() {
     makeObservable(this);
 
+    // should be constant
     this.turns = 0;
     this.winner = '';
     this.xIsNext = false;
-    this.board = Array(9).fill('');
 
+    this.board = new Board();
     this.history = new History();
     this.playerSymbols = new PLayerSymbols();
   }
@@ -32,7 +30,6 @@ export default class AppStore {
     const {
       winner,
       playerSymbols,
-      isBoxAlreadyClicked,
     } = this;
 
     const {
@@ -40,20 +37,21 @@ export default class AppStore {
       oPlayer,
     } = playerSymbols;
 
-    if (winner || isBoxAlreadyClicked(index)) {
+    if (winner || !!this.board.squares[index]) {
       return;
     }
 
     this.turns += 1;
 
-    if (this.turns === 9) {
+    if (this.turns === 9) { // constant 9
       this.history.draws += 1;
     }
 
-    this.board[index] = value;
+    this.board.squares[index] = value;
 
-    this.winner = calculateWinner(this.board);
+    this.winner = this.board.calculateWinner();
 
+    // Think about a better way
     if (this.winner === xPlayer) {
       this.history.xWins += 1;
     } else if (this.winner === oPlayer) {
@@ -61,9 +59,5 @@ export default class AppStore {
     }
 
     this.xIsNext = !this.xIsNext; // Think about a better way
-  }
-
-  @action.bound private isBoxAlreadyClicked(i: number): boolean {
-    return Boolean(this.board[i]);
   }
 }
