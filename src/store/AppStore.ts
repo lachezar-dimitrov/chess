@@ -1,63 +1,70 @@
-/* eslint-disable lines-between-class-members */
 import { action, makeObservable, observable } from 'mobx';
+import {
+  INITIAL_TURNS,
+  INITIAL_DRAWS,
+  maxNumberOfTurns,
+  INITIAL_PLAYER_INDEX,
+  INITIAL_WINNER_SYMBOL,
+  DEFAULT_PLAYER_ONE_SIGN,
+  DEFAULT_PLAYER_TWO_SIGN,
+} from './constants/DefaultValues';
 import Board from './models/Board';
+import Player from './models/Player';
 import History from './models/History';
-import PLayerSymbols from './models/PlayerSymbols';
 
 export default class AppStore {
   @observable turns: number;
-  @observable winner: string;
-  @observable xIsNext: boolean; // don no use bool
+  @observable draws: number;
+  @observable winnerSymbol: string;
+  @observable currentPlayerIndex: number;
 
   @observable board: Board;
   @observable history: History;
-  @observable playerSymbols: PLayerSymbols;
+  @observable players: Array<Player>;
 
   constructor() {
     makeObservable(this);
 
-    // should be constant
-    this.turns = 0;
-    this.winner = '';
-    this.xIsNext = false;
+    this.turns = INITIAL_TURNS;
+    this.draws = INITIAL_DRAWS;
+    this.winnerSymbol = INITIAL_WINNER_SYMBOL;
+    this.currentPlayerIndex = INITIAL_PLAYER_INDEX;
 
     this.board = new Board();
     this.history = new History();
-    this.playerSymbols = new PLayerSymbols();
+    this.players = [
+      new Player(DEFAULT_PLAYER_ONE_SIGN),
+      new Player(DEFAULT_PLAYER_TWO_SIGN),
+    ];
   }
 
   @action.bound handleBoxClick(index: number, value: string): void {
-    const {
-      winner,
-      playerSymbols,
-    } = this;
-
-    const {
-      xPlayer,
-      oPlayer,
-    } = playerSymbols;
-
-    if (winner || !!this.board.squares[index]) {
+    if (this.winnerSymbol || !!this.board.squares[index]) {
       return;
     }
 
     this.turns += 1;
-
-    if (this.turns === 9) { // constant 9
-      this.history.draws += 1;
-    }
-
     this.board.squares[index] = value;
+    this.winnerSymbol = this.board.calculateWinner();
 
-    this.winner = this.board.calculateWinner();
+    if (this.winnerSymbol) {
+      this.players.forEach((player) => {
+        if (player.symbol === this.winnerSymbol) {
+          player.history.wins += 1;
+        } else {
+          player.history.loses += 1;
+        }
+      });
 
-    // Think about a better way
-    if (this.winner === xPlayer) {
-      this.history.xWins += 1;
-    } else if (this.winner === oPlayer) {
-      this.history.oWins += 1;
+      return;
     }
 
-    this.xIsNext = !this.xIsNext; // Think about a better way
+    if (this.turns === maxNumberOfTurns) {
+      this.draws += 1;
+
+      return;
+    }
+
+    this.currentPlayerIndex = this.turns % this.players.length;
   }
 }

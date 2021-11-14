@@ -1,13 +1,13 @@
+import { makeObservable, observable } from 'mobx';
+
 export default class History {
-    xWins: number;
+  @observable wins: number;
+  @observable loses: number;
 
-    oWins: number;
+  constructor() {
+    makeObservable(this);
 
-    draws: number;
-
-    constructor() {
-      this.xWins = 0;
-      this.oWins = 0;
-      this.draws = 0;
-    }
+    this.wins = 0;
+    this.loses = 0;
+  }
 }
