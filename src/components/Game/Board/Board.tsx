@@ -9,7 +9,6 @@ import AppStore from '../../../store/AppStore';
 export default class Board extends Component {
   render(): ReactNode {
     const { board } = this.context as AppStore;
-    // console.log({ board });
 
     return (
       <div className="board">

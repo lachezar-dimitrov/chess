@@ -1,51 +1,52 @@
 import React, { Component, ReactNode } from 'react';
 import { observer } from 'mobx-react';
 import classNames from 'classnames';
-import Board from './Board/Board';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import {
-  DRAW_MESSAGE, NEXT_PLAYER, RULES, WINNER_MESSAGE,
+  RULES,
+  NEXT_PLAYER,
+  DRAW_MESSAGE,
+  WINNER_MESSAGE,
 } from '../../constants/texts';
-import AppStore from '../../store/AppStore';
 import { StoreContext } from '../StoreProvider/StoreProvider';
+import Board from './Board/Board';
+import AppStore from '../../store/AppStore';
 
 @observer
 export default class Game extends Component {
   renderHistory(): ReactNode {
     const {
-      xIsNext,
-      winner,
-      history,
-      playerSymbols,
+      turns,
+      draws,
+      players,
+      winnerSymbol,
+      currentPlayerIndex,
     } = this.context as AppStore;
 
-    const {
-      xPlayer,
-      oPlayer,
-    } = playerSymbols;
+    const [xPlayer, oPlayer] = players;
 
-    const {
-      draws,
-      xWins,
-      oWins,
-    } = history;
+    const { wins: xWins } = xPlayer.history;
+    const { wins: oWins } = oPlayer.history;
 
-    let status;
+    let status = '';
 
-    if (winner) {
-      status = `${WINNER_MESSAGE} ${winner}`;
+    if (winnerSymbol) {
+      status = `${WINNER_MESSAGE} ${winnerSymbol}`;
     } else if (draws) {
       status = DRAW_MESSAGE;
     } else {
-      status = `${NEXT_PLAYER}: ${xIsNext ? xPlayer : oPlayer}`;
+      status = `${NEXT_PLAYER}: ${players[currentPlayerIndex].symbol}`;
     }
 
+    const classes = {
+      black: currentPlayerIndex % players.length === 0,
+    };
+
     return (
-      <div className={classNames('history', { black: xIsNext })}>
+      <div className={classNames('history', classes)}>
         <div className="status">{status}</div>
         <div className="stats">
-          <div>{`Wins ${xPlayer}: ${xWins}`}</div>
-          <div>{`Wins ${oPlayer}: ${oWins}`}</div>
+          <div>{`Wins ${xPlayer.symbol}: ${xWins}`}</div>
+          <div>{`Wins ${oPlayer.symbol}: ${oWins}`}</div>
           <div>{`Draws: ${draws}`}</div>
         </div>
       </div>
@@ -55,15 +56,9 @@ export default class Game extends Component {
   render(): ReactNode {
     return (
       <div className="game-container">
-        <div className="game-info">
-          {RULES}
-        </div>
-        <ErrorBoundary>
-          {this.renderHistory()}
-        </ErrorBoundary>
-        <ErrorBoundary>
-          <Board />
-        </ErrorBoundary>
+        <div className="game-info">{RULES}</div>
+        {this.renderHistory()}
+        <Board />
       </div>
     );
   }

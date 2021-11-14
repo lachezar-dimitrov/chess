@@ -14,27 +14,28 @@ export default class Box extends Component<Props> {
   render(): ReactNode {
     const { value, index } = this.props;
     const {
-      winner,
-      xIsNext,
-      playerSymbols,
+      winnerSymbol,
+      currentPlayerIndex,
+      players,
       handleBoxClick,
     } = this.context as AppStore;
 
-    const { xPlayer, oPlayer } = playerSymbols;
-    const boxValue = xIsNext ? xPlayer : oPlayer;
+    const boxValue = players[currentPlayerIndex].symbol;
 
     const handleClick = (): void => handleBoxClick(index, boxValue);
+
+    const classes = {
+      'negative-select': currentPlayerIndex % players.length === 0,
+      'positive-select': currentPlayerIndex % players.length !== 0,
+      selectable: !value && !winnerSymbol,
+      negative: value === players[0].symbol,
+      positive: value === players[1].symbol,
+    };
 
     return (
       <button
         type="button"
-        className={classNames('box', {
-          'negative-select': xIsNext,
-          'positive-select': !xIsNext,
-          selectable: !value && !winner,
-          negative: value === xPlayer,
-          positive: value === oPlayer,
-        })}
+        className={classNames('box', classes)}
         onClick={handleClick}
       >
         {value}
