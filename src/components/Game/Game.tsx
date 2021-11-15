@@ -1,6 +1,5 @@
 import React, { Component, ReactNode } from 'react';
 import { observer } from 'mobx-react';
-import classNames from 'classnames';
 import {
   RULES,
   NEXT_PLAYER,
@@ -15,7 +14,6 @@ import AppStore from '../../store/AppStore';
 export default class Game extends Component {
   renderHistory(): ReactNode {
     const {
-      turns,
       draws,
       players,
       winnerSymbol,
@@ -37,12 +35,8 @@ export default class Game extends Component {
       status = `${NEXT_PLAYER}: ${players[currentPlayerIndex].symbol}`;
     }
 
-    const classes = {
-      black: currentPlayerIndex % players.length === 0,
-    };
-
     return (
-      <div className={classNames('history', classes)}>
+      <div className="history">
         <div className="status">{status}</div>
         <div className="stats">
           <div>{`Wins ${xPlayer.symbol}: ${xWins}`}</div>

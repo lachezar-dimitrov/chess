@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from 'react';
+import React, { Component, Fragment, ReactNode } from 'react';
 import { observer } from 'mobx-react';
 import { StoreContext } from '../../StoreProvider/StoreProvider';
 import { generateUniqueKey } from '../../../helpers/KeyGenerator';
@@ -12,12 +12,17 @@ export default class Board extends Component {
 
     return (
       <div className="board">
-        {board.squares.map((box, index) => (
-          <Box
-            key={generateUniqueKey()}
-            index={index}
-            value={box}
-          />
+        {board.allSquares.map((row, rowIndex) => (
+          <Fragment key={generateUniqueKey()}>
+            {row.map((box, columnIndex) => (
+              <Box
+                value={box}
+                row={rowIndex}
+                column={columnIndex}
+                key={generateUniqueKey()}
+              />
+            ))}
+          </Fragment>
         ))}
       </div>
     );

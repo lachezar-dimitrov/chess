@@ -5,14 +5,15 @@ import { StoreContext } from '../../../StoreProvider/StoreProvider';
 import AppStore from '../../../../store/AppStore';
 
 type Props = {
-  index: number;
+  row: number;
   value: string;
+  column: number;
 };
 
 @observer
 export default class Box extends Component<Props> {
   render(): ReactNode {
-    const { value, index } = this.props;
+    const { value, row, column } = this.props;
     const {
       winnerSymbol,
       currentPlayerIndex,
@@ -22,7 +23,7 @@ export default class Box extends Component<Props> {
 
     const boxValue = players[currentPlayerIndex].symbol;
 
-    const handleClick = (): void => handleBoxClick(index, boxValue);
+    const handleClick = (): void => handleBoxClick(row, column, boxValue);
 
     const classes = {
       'negative-select': currentPlayerIndex % players.length === 0,
