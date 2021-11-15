@@ -1,4 +1,8 @@
-import { action, makeObservable, observable } from 'mobx';
+import {
+  action,
+  observable,
+  makeObservable,
+} from 'mobx';
 import {
   INITIAL_TURNS,
   INITIAL_DRAWS,
@@ -38,33 +42,31 @@ export default class AppStore {
     ];
   }
 
-  @action.bound handleBoxClick(index: number, value: string): void {
-    if (this.winnerSymbol || !!this.board.squares[index]) {
-      return;
+  @action.bound handleBoxClick(
+    row: number,
+    column: number,
+    value: string,
+  ): void {
+    if (!this.winnerSymbol && !this.board.getValue(row, column)) {
+      this.turns += 1;
+
+      this.board.setValue(row, column, value);
+
+      this.winnerSymbol = this.board.calculateWinner(row, column);
+
+      if (this.winnerSymbol) {
+        this.players.forEach((player) => {
+          if (player.symbol === this.winnerSymbol) {
+            player.history.wins += 1;
+          } else {
+            player.history.loses += 1;
+          }
+        });
+      } else if (this.turns === maxNumberOfTurns) {
+        this.draws += 1;
+      } else {
+        this.currentPlayerIndex = this.turns % this.players.length;
+      }
     }
-
-    this.turns += 1;
-    this.board.squares[index] = value;
-    this.winnerSymbol = this.board.calculateWinner();
-
-    if (this.winnerSymbol) {
-      this.players.forEach((player) => {
-        if (player.symbol === this.winnerSymbol) {
-          player.history.wins += 1;
-        } else {
-          player.history.loses += 1;
-        }
-      });
-
-      return;
-    }
-
-    if (this.turns === maxNumberOfTurns) {
-      this.draws += 1;
-
-      return;
-    }
-
-    this.currentPlayerIndex = this.turns % this.players.length;
   }
 }

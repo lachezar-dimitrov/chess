@@ -1,45 +1,135 @@
-import { makeObservable, observable } from 'mobx';
+import {
+  action,
+  computed,
+  observable,
+  makeObservable,
+} from 'mobx';
+import {
+  NUMBER_OF_ROWS,
+  NUMBER_OF_COLUMNS,
+} from '../constants/DefaultValues';
 
 export default class Board {
-    private readonly lines: Array<Array<number>>;
-
-    @observable squares: Array<string>;
+    @observable private squares: Array<Array<string>>;
 
     constructor() {
       makeObservable(this);
 
-      this.lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-      ];
+      this.squares = Array(NUMBER_OF_ROWS)
+        .fill(
+          Array(NUMBER_OF_COLUMNS)
+            .fill(''),
+        );
+    }
 
-      this.squares = Array(9).fill('');
+    @action.bound setValue(row: number, column: number, value: string): void {
+      this.squares[row][column] = value;
+    }
+
+    @computed get allSquares(): Array<Array<string>> {
+      return this.squares;
+    }
+
+    getValue(x: number, y: number): string {
+      return this.squares[x][y];
     }
 
     /**
      * Given an array of 9 squares, this function will check for a winner.
      *
      * @returns The symbol of the player that won the game or an empty string
-    */
-    calculateWinner(): string {
-      const { lines, squares } = this;
+     */
+    calculateWinner(row: number, column: number): string {
+      const symbol = this.squares[row][column];
 
-      for (let i = 0; i < lines.length; i += 1) {
-        const [a, b, c] = lines[i];
-        if (squares[a]
-            && squares[a] === squares[b]
-            && squares[a] === squares[c]
-        ) {
-          return squares[a];
-        }
+      const rows = this.checkRows(symbol);
+      const columns = this.checkColumns(symbol);
+      const diagonals = this.checkDiagonals(symbol);
+
+      if (rows || columns || diagonals) {
+        return symbol;
       }
 
       return '';
+    }
+
+    private checkRows(symbol: string): boolean {
+      const { squares } = this;
+      let symbols = '';
+
+      for (let row = 0; row < squares.length; row += 1) {
+        symbols += symbol;
+      }
+
+      for (let row = 0; row < squares.length; row += 1) {
+        const line = squares[row].join('');
+
+        if (line === symbols) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    private checkColumns(symbol: string): boolean {
+      const { squares } = this;
+      let symbols = '';
+
+      for (let row = 0; row < squares.length; row += 1) {
+        symbols += symbol;
+      }
+
+      for (let column = 0; column < squares.length; column += 1) {
+        let col = '';
+
+        for (let row = 0; row < squares.length; row += 1) {
+          col += squares[row][column];
+        }
+
+        if (col === symbols) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    private checkDiagonals(symbol: string): boolean {
+      const { squares } = this;
+      let symbols = '';
+
+      for (let row = 0; row < squares.length; row += 1) {
+        symbols += symbol;
+      }
+
+      const middleRow = 1;
+      const middleColumn = 1;
+      const up = middleRow - 1;
+      const down = middleRow + 1;
+      const left = middleColumn - 1;
+      const right = middleColumn + 1;
+
+      const middleValue = this.getValue(middleRow, middleColumn);
+
+      const upperLeft = this.getValue(up, left);
+      const downRight = this.getValue(down, right);
+
+      const mainDiagonal = [upperLeft, middleValue, downRight];
+
+      if (mainDiagonal.join('') === symbols) {
+        return true;
+      }
+
+      const upperRight = this.getValue(up, right);
+      const downLeft = this.getValue(down, left);
+
+      const secondaryDiagonal = [upperRight, middleValue, downLeft];
+
+      if (secondaryDiagonal.join('') === symbols) {
+        return true;
+      }
+
+      return false;
     }
 }
