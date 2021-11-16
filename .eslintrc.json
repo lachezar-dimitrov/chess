@@ -41,7 +41,10 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "import/prefer-default-export": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "react/prefer-stateless-function": [0],
+    "lines-between-class-members": "off",
+    "no-param-reassign": "off"
   },
   "settings": {
     "import/resolver": {

@@ -1,17 +1,17 @@
 @import '../../../../styles/mixins.less';
-@import '../../../../styles/variables.less';
 
 .box {
+    transition: all 0.3s ease;
     border: none;
-    font-family: Helvetica;
-    font-weight: bold;
     width: @box-width;
     height: @box-height;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    font-size: @symbols-font-size;
     background-color: @color-negative-1;
-    box-shadow: 2px 2px 10px @color-negative-2;
+    font-size: @symbols-font-size;
+    font-family: Helvetica;
+    font-weight: bold;
+    
+    .box-shadow(@color-negative-2);
+    .border-radius(10px);
     
     &.selectable {
         cursor: pointer; 

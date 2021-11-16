@@ -1,99 +1,72 @@
-import { action, makeObservable, observable } from 'mobx';
-import { O, X } from '../constants/texts';
-import { BoardType } from '../types/Board';
-import { IHistory } from '../interfaces/History';
-import { IAppStore } from '../interfaces/AppStore';
-import { calculateWinner } from '../helpers/CalculateWinner';
-import { IPLayerSymbols } from '../interfaces/PlayerSymbols';
+import {
+  action,
+  observable,
+  makeObservable,
+} from 'mobx';
+import {
+  INITIAL_TURNS,
+  INITIAL_DRAWS,
+  maxNumberOfTurns,
+  INITIAL_PLAYER_INDEX,
+  INITIAL_WINNER_SYMBOL,
+  DEFAULT_PLAYER_ONE_SIGN,
+  DEFAULT_PLAYER_TWO_SIGN,
+} from './constants/DefaultValues';
+import Board from './models/Board';
+import Player from './models/Player';
+import History from './models/History';
 
-class AppStore implements IAppStore {
-  @observable
-  playerSymbols: IPLayerSymbols;
+export default class AppStore {
+  @observable turns: number;
+  @observable draws: number;
+  @observable winnerSymbol: string;
+  @observable currentPlayerIndex: number;
 
-  @observable
-  xIsNext: boolean;
+  @observable board: Board;
+  @observable history: History;
+  @observable players: Array<Player>;
 
-  @observable
-  winner: string;
-
-  @observable
-  turns: number;
-
-  @observable
-  board: BoardType;
-
-  @observable
-  history: IHistory;
-
-  constructor(
-    board: BoardType,
-    playerSymbols: IPLayerSymbols,
-    history: IHistory,
-  ) {
+  constructor() {
     makeObservable(this);
 
-    this.board = [...board];
-    this.playerSymbols = { ...playerSymbols };
-    this.history = { ...history };
+    this.turns = INITIAL_TURNS;
+    this.draws = INITIAL_DRAWS;
+    this.winnerSymbol = INITIAL_WINNER_SYMBOL;
+    this.currentPlayerIndex = INITIAL_PLAYER_INDEX;
 
-    this.turns = 0;
-    this.winner = '';
-    this.xIsNext = false;
+    this.board = new Board();
+    this.history = new History();
+    this.players = [
+      new Player(DEFAULT_PLAYER_ONE_SIGN),
+      new Player(DEFAULT_PLAYER_TWO_SIGN),
+    ];
   }
 
-  @action
-  handleBoxClick = (index: number): void => {
-    const {
-      winner,
-      xIsNext,
-      playerSymbols,
-      isBoxAlreadyClicked,
-    } = this;
+  @action.bound handleBoxClick(
+    row: number,
+    column: number,
+    value: string,
+  ): void {
+    if (!this.winnerSymbol && !this.board.getValue(row, column)) {
+      this.turns += 1;
 
-    const {
-      xPlayer,
-      oPlayer,
-    } = playerSymbols;
+      this.board.setValue(row, column, value);
 
-    if (winner || isBoxAlreadyClicked(index)) {
-      return;
+      this.winnerSymbol = this.board.calculateWinner(row, column);
+
+      if (this.winnerSymbol) {
+        this.players.forEach((player) => {
+          if (player.symbol === this.winnerSymbol) {
+            player.history.wins += 1;
+          } else {
+            player.history.loses += 1;
+          }
+        });
+      } else if (this.turns === maxNumberOfTurns) {
+        this.draws += 1;
+      } else {
+        this.currentPlayerIndex = this.turns % this.players.length;
+      }
     }
-
-    this.turns += 1;
-
-    if (this.turns === 9) {
-      this.history.draws += 1;
-    }
-
-    this.board[index] = xIsNext ? xPlayer : oPlayer;
-
-    this.winner = calculateWinner(this.board);
-
-    if (this.winner === xPlayer) {
-      this.history.xWins += 1;
-    } else if (this.winner === oPlayer) {
-      this.history.oWins += 1;
-    }
-
-    this.xIsNext = !this.xIsNext;
   }
-
-  private isBoxAlreadyClicked = (i: number): boolean => Boolean(this.board[i]);
 }
-
-const board: BoardType = Array(9).fill('');
-
-const playerSymbols = {
-  xPlayer: 'X',
-  oPlayer: 'O',
-};
-
-const history = {
-  xWins: 0,
-  oWins: 0,
-  draws: 0,
-};
-
-const AppStoreInstance = new AppStore(board, playerSymbols, history);
-
-export default AppStoreInstance;

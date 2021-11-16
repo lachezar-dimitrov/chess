@@ -1,47 +1,29 @@
-import React, { Component, ReactNode } from 'react';
+import React, { Component, Fragment, ReactNode } from 'react';
 import { observer } from 'mobx-react';
-import classNames from 'classnames';
-import Box from './Box/Box';
 import { StoreContext } from '../../StoreProvider/StoreProvider';
-import { IAppStore } from '../../../interfaces/AppStore';
-import { generateId } from '../../../helpers/IdGenerator';
+import { generateUniqueKey } from '../../../helpers/KeyGenerator';
+import Box from './Box/Box';
+import AppStore from '../../../store/AppStore';
 
 @observer
 export default class Board extends Component {
-  private renderBox = (box: string, index: number): ReactNode => {
-    const {
-      winner,
-      xIsNext,
-      playerSymbols,
-      handleBoxClick,
-    } = this.context as IAppStore;
-
-    const { xPlayer, oPlayer } = playerSymbols;
-
-    const handleClick = (): void => handleBoxClick(index);
-
-    return (
-      <Box
-        key={generateId()}
-        value={box}
-        className={classNames({
-          'negative-select': xIsNext,
-          'positive-select': !xIsNext,
-          selectable: !box && !winner,
-          negative: box === xPlayer,
-          positive: box === oPlayer,
-        })}
-        onClick={handleClick}
-      />
-    );
-  }
-
   render(): ReactNode {
-    const { board } = this.context as IAppStore;
+    const { board } = this.context as AppStore;
 
     return (
       <div className="board">
-        {board.map(this.renderBox)}
+        {board.allSquares.map((row, rowIndex) => (
+          <Fragment key={generateUniqueKey()}>
+            {row.map((box, columnIndex) => (
+              <Box
+                value={box}
+                row={rowIndex}
+                column={columnIndex}
+                key={generateUniqueKey()}
+              />
+            ))}
+          </Fragment>
+        ))}
       </div>
     );
   }
