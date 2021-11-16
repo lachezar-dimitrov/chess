@@ -41,74 +41,62 @@ export default class Board {
      */
     calculateWinner(row: number, column: number): string {
       const symbol = this.squares[row][column];
+      const symbols = Array(this.squares.length)
+        .fill(symbol)
+        .join('');
 
-      const rows = this.checkRows(symbol);
-      const columns = this.checkColumns(symbol);
-      const diagonals = this.checkDiagonals(symbol);
+      const hasWinningLine = this.checkRows(symbols);
+      const hasWinningColumn = this.checkColumns(symbols);
+      const hasWinningDiagonal = this.checkDiagonals(symbols);
 
-      if (rows || columns || diagonals) {
-        return symbol;
+      let winnerSymbol = '';
+
+      if (hasWinningLine || hasWinningColumn || hasWinningDiagonal) {
+        winnerSymbol = symbol;
       }
 
-      return '';
+      return winnerSymbol;
     }
 
-    private checkRows(symbol: string): boolean {
-      const { squares } = this;
-      let symbols = '';
+    private checkRows(symbols: string): boolean {
+      let hasWinningLine = false;
 
-      for (let row = 0; row < squares.length; row += 1) {
-        symbols += symbol;
-      }
-
-      for (let row = 0; row < squares.length; row += 1) {
-        const line = squares[row].join('');
-
-        if (line === symbols) {
-          return true;
+      this.squares.forEach((row) => {
+        if (row.join('') === symbols) {
+          hasWinningLine = true;
         }
-      }
+      });
 
-      return false;
+      return hasWinningLine;
     }
 
-    private checkColumns(symbol: string): boolean {
-      const { squares } = this;
-      let symbols = '';
+    private checkColumns(symbols: string): boolean {
+      let hasWinningColumn = false;
 
-      for (let row = 0; row < squares.length; row += 1) {
-        symbols += symbol;
-      }
-
-      for (let column = 0; column < squares.length; column += 1) {
+      this.squares.forEach((_, columnIndex) => {
         let col = '';
 
-        for (let row = 0; row < squares.length; row += 1) {
-          col += squares[row][column];
-        }
+        this.squares.forEach((__, rowIndex) => {
+          col += this.squares[rowIndex][columnIndex];
+        });
 
         if (col === symbols) {
-          return true;
+          hasWinningColumn = true;
         }
-      }
+      });
 
-      return false;
+      return hasWinningColumn;
     }
 
-    private checkDiagonals(symbol: string): boolean {
-      const { squares } = this;
-      let symbols = '';
-
-      for (let row = 0; row < squares.length; row += 1) {
-        symbols += symbol;
-      }
-
+    private checkDiagonals(symbols: string): boolean {
       const middleRow = 1;
       const middleColumn = 1;
       const up = middleRow - 1;
       const down = middleRow + 1;
       const left = middleColumn - 1;
       const right = middleColumn + 1;
+
+      let hasWinningDiagonal = false;
 
       const middleValue = this.getValue(middleRow, middleColumn);
 
@@ -118,7 +106,7 @@ export default class Board {
       const mainDiagonal = [upperLeft, middleValue, downRight];
 
       if (mainDiagonal.join('') === symbols) {
-        return true;
+        hasWinningDiagonal = true;
       }
 
       const upperRight = this.getValue(up, right);
@@ -127,9 +115,9 @@ export default class Board {
       const secondaryDiagonal = [upperRight, middleValue, downLeft];
 
       if (secondaryDiagonal.join('') === symbols) {
-        return true;
+        hasWinningDiagonal = true;
       }
 
-      return false;
+      return hasWinningDiagonal;
     }
 }
