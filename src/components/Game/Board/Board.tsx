@@ -1,7 +1,6 @@
 import React, { Component, Fragment, ReactNode } from 'react';
 import { observer } from 'mobx-react';
 import { StoreContext } from '../../StoreProvider/StoreProvider';
-import { generateUniqueKey } from '../../../helpers/KeyGenerator';
 import Box from './Box/Box';
 import AppStore from '../../../store/AppStore';
 
@@ -13,13 +12,13 @@ export default class Board extends Component {
     return (
       <div className="board">
         {board.allSquares.map((row, rowIndex) => (
-          <Fragment key={generateUniqueKey()}>
+          <Fragment key={Math.random()}>
             {row.map((box, columnIndex) => (
               <Box
                 value={box}
                 row={rowIndex}
                 column={columnIndex}
-                key={generateUniqueKey()}
+                key={Math.random()}
               />
             ))}
           </Fragment>
