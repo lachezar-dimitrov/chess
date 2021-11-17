@@ -25,12 +25,17 @@ export default class Box extends Component<Props> {
 
     const handleClick = (): void => handleBoxClick(row, column, boxValue);
 
+    const [xPlayer, oPlayer] = players;
+
+    const { symbol: xSymbol } = xPlayer;
+    const { symbol: oSymbol } = oPlayer;
+
     const classes = {
       'negative-select': currentPlayerIndex % players.length === 0,
-      'positive-select': currentPlayerIndex % players.length !== 0,
+      'positive-select': currentPlayerIndex % players.length === 1,
       selectable: !value && !winnerSymbol,
-      negative: value === players[0].symbol,
-      positive: value === players[1].symbol,
+      negative: value === xSymbol,
+      positive: value === oSymbol,
     };
 
     return (
