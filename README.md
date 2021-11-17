@@ -31,7 +31,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## Store
 ### `AppStore`
 #### `handleBoxClick()`:
-think if this should be components tests for all
+Think if this should be components tests for all!
 * should check if there already a winner and do nothing
 * should check if the box on the given position is already clicked and do nothing
 * should set the correct winner if there is a winner
@@ -41,14 +41,6 @@ think if this should be components tests for all
 * should change the current player index
 
 ### `Board`
-#### `setValue()`:
-* should validate if the value is a valid symbol [A-Z] and [0-9] with length of 1
-* should throw if the given positions are not in the range of the board
-
-#### `getValue()`:
-* should return the value on the board with the given positions
-* should return early if the given positions are not in the range of the board
-
 #### `calculateTheWinner()`:
 * should call checkRows with the symbol that belongs to the given positions
 * should call checkColumns with the symbol that belongs to the given positions
@@ -60,7 +52,7 @@ think if this should be components tests for all
 * should display the game history
 * should render the board
 #### `renderHistory()`:
-// Do not test react!
+Do not test react!
 * should display the number of wins on the first player
 * should display the number of wins on the second player
 * should display the number of all draws
