@@ -29,12 +29,16 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 # Unit Testing Plan
 ## Store
 ### `AppStore`
+#### `get status()`:
+1. V should show the next player
+1. V should change the status only when win occur
+1. V should change the draw status only when draw occur
 #### `handleBoxClick()`:
-1. should check if the box on the given position is already clicked and do nothing
+
 1. should set the correct winner if there is a winner
 1. should increase the win counter to the winner
 1. should increase the loss counter to the losers
-1. if no winner and turns are equal to the maximum number of turns then draws should be incremented by one
+1. should increase the draw counter when draw occur
 
 ### `Board`
 #### `calculateTheWinner()`:
@@ -44,25 +48,13 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 1. V should return the symbol of the winner diagonally
 
 ## Components
-### `Game`:
-
-1. V should display the rules of the game
-1. V should display the game history V
-#### `renderHistory()`:
-1. V should show the next player
-1. V should change the status only when win occur
-1. V should change the draw status only when draw occur
 
 ### `Box`:
-1. should change the value with the symbol of the current player
-1. should change its content if it is clicked for the first time
-1. should not change its content if it is not clicked for the first time
+1. should change the box value on the first call with the symbol of the current player
+1. should not change the box value if it is called twice
+
 
 # Nightwatch Testing Plan
-1. should not allow clicking on same box again
 1. should change the status when a draw occur
 1. should change the status when one of the players win
-1. should increment the draws counter with one when a draw occur
-1. should not allow clicking on the board when the game end (win or draw)
-1. should increment the wins counter on the first player with one when the first player win
-1. should increment the wins counter on the second player with one when the second player win
+1. should not allow clicking on the board when the game ends (win or draw)
