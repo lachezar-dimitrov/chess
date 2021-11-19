@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Game from '../components/Game/Game';
+import Game from '../../../components/Game/Game';
 
 describe('Game component:', () => {
   test('should display the rules of the game', () => {
