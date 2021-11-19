@@ -6,19 +6,25 @@ import {
   DRAW_MESSAGE,
   WINNER_MESSAGE,
 } from '../../constants/texts';
-import { StoreContext } from '../StoreProvider/StoreProvider';
-import Board from './Board/Board';
-import AppStore from '../../store/AppStore';
+import Board from '../../containers/Game/Board/Board';
+import Player from '../../store/models/Player';
+
+export type Props = {
+  draws: number;
+  winnerSymbol: string;
+  players: Array<Player>;
+  currentPlayerIndex: number
+}
 
 @observer
-export default class Game extends Component {
+export default class Game extends Component<Props> {
   renderHistory(): ReactNode {
     const {
       draws,
       players,
       winnerSymbol,
       currentPlayerIndex,
-    } = this.context as AppStore;
+    } = this.props;
 
     const [xPlayer, oPlayer] = players;
 
@@ -57,5 +63,3 @@ export default class Game extends Component {
     );
   }
 }
-
-Game.contextType = StoreContext;

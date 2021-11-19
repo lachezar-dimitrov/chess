@@ -1,25 +1,32 @@
 import React, { Component, ReactNode } from 'react';
 import { observer } from 'mobx-react';
 import classNames from 'classnames';
-import { StoreContext } from '../../../StoreProvider/StoreProvider';
-import AppStore from '../../../../store/AppStore';
+import Player from '../../../../store/models/Player';
 
-type Props = {
+type HandleBoxClick = (r: number, c: number, v: string) => void;
+
+export type Props = {
   row: number;
   value: string;
   column: number;
+  winnerSymbol: string;
+  players: Array<Player>;
+  currentPlayerIndex: number;
+  handleBoxClick: HandleBoxClick;
 };
 
 @observer
 export default class Box extends Component<Props> {
   render(): ReactNode {
-    const { value, row, column } = this.props;
     const {
+      row,
+      value,
+      column,
+      players,
       winnerSymbol,
       currentPlayerIndex,
-      players,
       handleBoxClick,
-    } = this.context as AppStore;
+    } = this.props;
 
     const boxValue = players[currentPlayerIndex].symbol;
 
@@ -49,5 +56,3 @@ export default class Box extends Component<Props> {
     );
   }
 }
-
-Box.contextType = StoreContext;

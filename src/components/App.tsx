@@ -1,5 +1,5 @@
 import React, { Component, ReactNode } from 'react';
-import Game from './Game/Game';
+import Game from '../containers/Game/Game';
 
 export default class App extends Component {
   render(): ReactNode {
