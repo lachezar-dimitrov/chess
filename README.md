@@ -34,7 +34,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## Store
 ### `AppStore`
 #### `handleBoxClick()`:
-* should check if there already a winner and do nothing
+<!-- * should check if there already a winner and do nothing -->
 * should check if the box on the given position is already clicked and do nothing
 * should set the correct winner if there is a winner
 * should increase the win counter to the winner
@@ -49,15 +49,19 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Components
 ### `Game`:
-* should display the rules of the game
-* should display the game history
-* should render the board
+
+* V should display the rules of the game
+* V should display the game history V
 #### `renderHistory()`:
+* V should show the next player
+* V should change the status only when win occur
+* V should change the draw status only when draw occur
 * should increment the wins counter on the first player with one when the first player win
 * should increment the wins counter on the second player with one when the second player win
 * should increment the draws counter with one when a draw occur
 
 ### `Board`:
+* should render the board
 * when init all cells are empty
 ### `Box`:
 * should change the value with the symbol of the current player
@@ -67,3 +71,5 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 # Nightwatch Testing Plan
 * should change the status when one of the players win
 * should change the status when a draw occur
+* should not allow clicking on same box again
+* should not allow clicking on the board when the game end (win or draw)

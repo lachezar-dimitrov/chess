@@ -18,18 +18,13 @@ export type Props = {
 
 @observer
 export default class Game extends Component<Props> {
-  renderHistory(): ReactNode {
+  private renderHistory(): ReactNode {
     const {
       draws,
       players,
       winnerSymbol,
       currentPlayerIndex,
     } = this.props;
-
-    const [xPlayer, oPlayer] = players;
-
-    const { wins: xWins } = xPlayer.history;
-    const { wins: oWins } = oPlayer.history;
 
     let status = '';
 
@@ -41,12 +36,16 @@ export default class Game extends Component<Props> {
       status = `${NEXT_PLAYER}: ${players[currentPlayerIndex].symbol}`;
     }
 
+    const renderWins = (player: Player): ReactNode => (
+      <div>{`Wins ${player.symbol}: ${player.history.wins}`}</div>
+    );
+
     return (
-      <div className="history">
-        <div className="status">{status}</div>
+      <div data-unit-test="history" className="history">
+        <div data-unit-test="status" className="status">{status}</div>
         <div className="stats">
-          <div>{`Wins ${xPlayer.symbol}: ${xWins}`}</div>
-          <div>{`Wins ${oPlayer.symbol}: ${oWins}`}</div>
+          {renderWins(players[0])}
+          {renderWins(players[1])}
           <div>{`Draws: ${draws}`}</div>
         </div>
       </div>
@@ -56,7 +55,7 @@ export default class Game extends Component<Props> {
   render(): ReactNode {
     return (
       <div className="game-container">
-        <div className="game-info">{RULES}</div>
+        <div data-unit-test="game-info" className="game-info">{RULES}</div>
         {this.renderHistory()}
         <Board />
       </div>
