@@ -2,6 +2,7 @@ import {
   action,
   observable,
   makeObservable,
+  computed,
 } from 'mobx';
 import {
   INITIAL_TURNS,
@@ -15,6 +16,7 @@ import {
 import Board from './models/Board';
 import Player from './models/Player';
 import History from './models/History';
+import { DRAW_MESSAGE, NEXT_PLAYER, WINNER_MESSAGE } from '../constants/texts';
 
 export default class AppStore {
   @observable turns: number;
@@ -40,6 +42,23 @@ export default class AppStore {
       new Player(DEFAULT_PLAYER_ONE_SIGN),
       new Player(DEFAULT_PLAYER_TWO_SIGN),
     ];
+  }
+
+  @computed get status(): string {
+    const {
+      draws,
+      players,
+      winnerSymbol,
+      currentPlayerIndex,
+    } = this;
+
+    if (winnerSymbol) {
+      return `${WINNER_MESSAGE} ${winnerSymbol}`;
+    }
+    if (draws) {
+      return DRAW_MESSAGE;
+    }
+    return `${NEXT_PLAYER}: ${players[currentPlayerIndex].symbol}`;
   }
 
   @action.bound handleBoxClick(

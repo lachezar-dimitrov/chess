@@ -29,11 +29,9 @@ export default class Box extends Component<Props> {
     } = this.props;
 
     const boxValue = players[currentPlayerIndex].symbol;
-
     const handleClick = (): void => handleBoxClick(row, column, boxValue);
 
     const [xPlayer, oPlayer] = players;
-
     const { symbol: xSymbol } = xPlayer;
     const { symbol: oSymbol } = oPlayer;
 
