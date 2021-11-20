@@ -12,14 +12,14 @@ import {
 export default class Board {
     @observable private squares: Array<Array<string>>;
 
-    constructor() {
+    constructor(
+      squares = Array(NUMBER_OF_ROWS).fill(
+        Array(NUMBER_OF_COLUMNS).fill(''),
+      ),
+    ) {
       makeObservable(this);
 
-      this.squares = Array(NUMBER_OF_ROWS)
-        .fill(
-          Array(NUMBER_OF_COLUMNS)
-            .fill(''),
-        );
+      this.squares = squares;
     }
 
     @action.bound setValue(row: number, column: number, value: string): void {

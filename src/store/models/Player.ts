@@ -5,10 +5,13 @@ export default class Player {
     @observable symbol: string;
     @observable history: History;
 
-    constructor(symbol: string) {
+    constructor(
+      symbol: string,
+      history = new History(),
+    ) {
       makeObservable(this);
 
       this.symbol = symbol;
-      this.history = new History();
+      this.history = history;
     }
 }
