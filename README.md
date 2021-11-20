@@ -33,12 +33,12 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 1. V should show the next player
 1. V should change the status only when win occur
 1. V should change the draw status only when draw occur
-#### `handleBoxClick()`:
 
-1. should set the correct winner if there is a winner
-1. should increase the win counter to the winner
-1. should increase the loss counter to the losers
-1. should increase the draw counter when draw occur
+#### `handleBoxClick()`:
+1. V should set the correct winner if there is a winner
+1. V should increase the win counter to the winner
+1. V should increase the loss counter to the losers
+1. V should increase the draw counter when draw occur
 
 ### `Board`
 #### `calculateTheWinner()`:
@@ -50,7 +50,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## Components
 
 ### `Box`:
-1. should change the box value on the first call with the symbol of the current player
+1. should change the box value with the symbol of the current player
 1. should not change the box value if it is called twice
 
 
