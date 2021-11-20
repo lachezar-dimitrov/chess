@@ -30,7 +30,7 @@ describe('Game component:', () => {
     );
 
     expect(
-      wrapper.find("[data-unit-test='game-info']").length,
+      wrapper.find("[data-test='game-info']").length,
     ).toEqual(1);
   });
 
@@ -61,7 +61,7 @@ describe('Game component:', () => {
     );
 
     expect(
-      wrapper.find("[data-unit-test='history']").length,
+      wrapper.find("[data-test='history']").length,
     ).toEqual(1);
   });
 });

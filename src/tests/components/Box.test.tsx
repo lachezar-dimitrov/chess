@@ -24,13 +24,13 @@ describe('Game component:', () => {
 
     // Act
     wrapper
-      .find("[data-unit-test='box-0-0']")
+      .find("[data-test='box-0-0']")
       .simulate('click');
 
     // Assert
     expect(
       wrapper
-        .find("[data-unit-test='box-0-0']")
+        .find("[data-test='box-0-0']")
         .text(),
     ).toBe(expectedOutput);
   });
@@ -48,14 +48,14 @@ describe('Game component:', () => {
 
     // Act
     wrapper
-      .find("[data-unit-test='box-0-0']")
+      .find("[data-test='box-0-0']")
       .simulate('click')
       .simulate('click');
 
     // Assert
     expect(
       wrapper
-        .find("[data-unit-test='box-0-0']")
+        .find("[data-test='box-0-0']")
         .text(),
     ).toBe(expectedOutput);
   });

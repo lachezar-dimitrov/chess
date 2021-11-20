@@ -30,22 +30,22 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ## Store
 ### `AppStore`
 #### `get status()`:
-1. V should show the next player
-1. V should change the status only when win occur
-1. V should change the draw status only when draw occur
+1. should show the next player
+1. should change the status only when win occur
+1. should change the draw status only when draw occur
 
 #### `handleBoxClick()`:
-1. V should set the correct winner if there is a winner
-1. V should increase the win counter to the winner
-1. V should increase the loss counter to the losers
-1. V should increase the draw counter when draw occur
+1. should set the correct winner if there is a winner
+1. should increase the win counter to the winner
+1. should increase the loss counter to the losers
+1. should increase the draw counter when draw occur
 
 ### `Board`
 #### `calculateTheWinner()`:
-1. V should return empty string if there is no winner
-1. V should return the symbol of the winner horizontally
-1. V should return the symbol of the winner vertically
-1. V should return the symbol of the winner diagonally
+1. should return empty string if there is no winner
+1. should return the symbol of the winner horizontally
+1. should return the symbol of the winner vertically
+1. should return the symbol of the winner diagonally
 
 ## Components
 

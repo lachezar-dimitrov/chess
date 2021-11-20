@@ -13,7 +13,7 @@ export default class Board extends Component<Props> {
     const { board } = this.props;
 
     return (
-      <div className="board">
+      <div data-test="board" className="board">
         {board?.allSquares.map((row, rowIndex) => (
           <Fragment key={Math.random()}>
             {row.map((box, columnIndex) => (

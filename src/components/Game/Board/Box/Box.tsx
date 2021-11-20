@@ -46,7 +46,7 @@ export default class Box extends Component<Props> {
     return (
       <button
         type="button"
-        data-unit-test={`box-${row}-${column}`}
+        data-test={`box-${row}-${column}`}
         className={classNames('box', classes)}
         onClick={handleClick}
       >

@@ -16,7 +16,7 @@ export default class Game extends Component<Props> {
   render(): ReactNode {
     return (
       <div className="game-container">
-        <div data-unit-test="game-info" className="game-info">{RULES}</div>
+        <div data-test="game-info" className="game-info">{RULES}</div>
         {this.renderHistory()}
         <Board />
       </div>
@@ -31,16 +31,18 @@ export default class Game extends Component<Props> {
     } = this.props;
 
     const renderWins = (player: Player): ReactNode => (
-      <div>{`Wins ${player.symbol}: ${player.history.wins}`}</div>
+      <div data-test={`wins-${player.symbol.toLowerCase()}`}>
+        {`Wins ${player.symbol}: ${player.history.wins}`}
+      </div>
     );
 
     return (
-      <div data-unit-test="history" className="history">
-        <div data-unit-test="status" className="status">{status}</div>
+      <div data-test="history" className="history">
+        <div data-test="status" className="status">{status}</div>
         <div className="stats">
           {renderWins(players[0])}
           {renderWins(players[1])}
-          <div>{`Draws: ${draws}`}</div>
+          <div data-test="draws">{`Draws: ${draws}`}</div>
         </div>
       </div>
     );
