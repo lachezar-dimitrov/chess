@@ -28,20 +28,24 @@ export default class AppStore {
   @observable history: History;
   @observable players: Array<Player>;
 
-  constructor() {
+  constructor(
+    board = new Board(),
+    history = new History(),
+    players = [
+      new Player(DEFAULT_PLAYER_ONE_SIGN),
+      new Player(DEFAULT_PLAYER_TWO_SIGN),
+    ],
+  ) {
     makeObservable(this);
+
+    this.board = board;
+    this.history = history;
+    this.players = players;
 
     this.turns = INITIAL_TURNS;
     this.draws = INITIAL_DRAWS;
     this.winnerSymbol = INITIAL_WINNER_SYMBOL;
     this.currentPlayerIndex = INITIAL_PLAYER_INDEX;
-
-    this.board = new Board();
-    this.history = new History();
-    this.players = [
-      new Player(DEFAULT_PLAYER_ONE_SIGN),
-      new Player(DEFAULT_PLAYER_TWO_SIGN),
-    ];
   }
 
   @computed get status(): string {
@@ -56,6 +60,7 @@ export default class AppStore {
       return `${WINNER_MESSAGE} ${winnerSymbol}`;
     }
     if (draws) {
+      // TODO Should not check the number of draws if 'new game button is added
       return DRAW_MESSAGE;
     }
     return `${NEXT_PLAYER}: ${players[currentPlayerIndex].symbol}`;
@@ -89,3 +94,5 @@ export default class AppStore {
     }
   }
 }
+
+export const store = new AppStore();
