@@ -88,6 +88,16 @@ export default class AppStore {
         });
       } else if (this.turns === maxNumberOfTurns) {
         this.draws += 1;
+
+        this.players.forEach((player) => {
+          if (player.symbol === this.winnerSymbol) {
+            player.history.wins += 1;
+          } else {
+            player.history.loses += 1;
+          }
+        });
+        // maybe you should push in the history a current
+        // Status with everything happening in the game
       } else {
         this.currentPlayerIndex = this.turns % this.players.length;
       }
