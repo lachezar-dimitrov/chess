@@ -12,7 +12,6 @@ describe('Game component:', () => {
   });
 
   test('should change the box value with the current player symbol', () => {
-    // Arrange
     const expectedOutput = 'X';
 
     const wrapper = mount(

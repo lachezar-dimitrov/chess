@@ -4,24 +4,19 @@ describe('get status():', () => {
   let appStoreInstance: AppStore;
 
   beforeEach(() => {
-    // Arrange
     appStoreInstance = new AppStore();
   });
 
   test('should show the next player', () => {
-    // Arrange
-    const expectedOutput = 'Next player: X';
+    const expectedOutput = 'Next player: X';// should be up
 
-    // Act
     const output = appStoreInstance.status;
 
-    // Assert
     expect(output).toBe(expectedOutput);
   });
 
-  test('should change the status only when win occur', () => {
-    /// Arrange
-    const expectedOutput = 'The winner is X';
+  test('should change the status only when win occurs', () => {
+    const expectedOutput = 'The winner is X'; // should be up
     appStoreInstance.winnerSymbol = 'X';
 
     // Act
@@ -45,7 +40,7 @@ describe('get status():', () => {
   });
 });
 
-describe('handleBoxClick in App store:', () => {
+describe('handleBoxClick in App store:', () => { // delete
   let appStoreInstance: AppStore;
 
   beforeEach(() => {
