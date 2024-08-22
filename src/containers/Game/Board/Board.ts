@@ -1,6 +1,6 @@
-import Board, { Props } from '../../../components/Game/Board/Board';
-import connect from '../../StoreInjector';
+import Board, { Props } from "../../../components/Game/Board/Board";
+import connect from "../../StoreInjector";
 
 export default connect<Props>((store) => ({
-  board: store.board,
+    board: store.board,
 }))(Board);

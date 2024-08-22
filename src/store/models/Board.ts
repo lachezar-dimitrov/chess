@@ -1,37 +1,25 @@
-import {
-  action,
-  computed,
-  observable,
-  makeObservable,
-} from 'mobx';
-import {
-  NUMBER_OF_ROWS,
-  NUMBER_OF_COLUMNS,
-} from '../constants/DefaultValues';
+import { action, computed, observable, makeObservable } from "mobx";
+import { NUMBER_OF_ROWS, NUMBER_OF_COLUMNS } from "../constants/DefaultValues";
 
 export default class Board {
     @observable private squares: Array<Array<string>>;
 
-    constructor(
-      squares = Array(NUMBER_OF_ROWS).fill(
-        Array(NUMBER_OF_COLUMNS).fill(''),
-      ),
-    ) {
-      makeObservable(this);
+    constructor(squares = Array(NUMBER_OF_ROWS).fill(Array(NUMBER_OF_COLUMNS).fill(""))) {
+        makeObservable(this);
 
-      this.squares = squares;
+        this.squares = squares;
     }
 
     @action.bound setValue(row: number, column: number, value: string): void {
-      this.squares[row][column] = value;
+        this.squares[row][column] = value;
     }
 
     @computed get allSquares(): Array<Array<string>> {
-      return this.squares;
+        return this.squares;
     }
 
     getValue(x: number, y: number): string {
-      return this.squares[x][y];
+        return this.squares[x][y];
     }
 
     /**
@@ -40,84 +28,82 @@ export default class Board {
      * @returns The symbol of the player that won the game or an empty string
      */
     calculateWinner(row: number, column: number): string {
-      const symbol = this.squares[row][column];
-      const symbols = Array(this.squares.length)
-        .fill(symbol)
-        .join('');
+        const symbol = this.squares[row][column];
+        const symbols = Array(this.squares.length).fill(symbol).join("");
 
-      const hasWinningLine = this.checkRows(symbols);
-      const hasWinningColumn = this.checkColumns(symbols);
-      const hasWinningDiagonal = this.checkDiagonals(symbols);
+        const hasWinningLine = this.checkRows(symbols);
+        const hasWinningColumn = this.checkColumns(symbols);
+        const hasWinningDiagonal = this.checkDiagonals(symbols);
 
-      let winnerSymbol = '';
+        let winnerSymbol = "";
 
-      if (hasWinningLine || hasWinningColumn || hasWinningDiagonal) {
-        winnerSymbol = symbol;
-      }
+        if (hasWinningLine || hasWinningColumn || hasWinningDiagonal) {
+            winnerSymbol = symbol;
+        }
 
-      return winnerSymbol;
+        return winnerSymbol;
     }
 
     private checkRows(symbols: string): boolean {
-      let hasWinningLine = false;
+        let hasWinningLine = false;
 
-      this.squares.forEach((row) => {
-        if (row.join('') === symbols) {
-          hasWinningLine = true;
-        }
-      });
+        this.squares.forEach((row) => {
+            if (row.join("") === symbols) {
+                hasWinningLine = true;
+            }
+        });
 
-      return hasWinningLine;
+        return hasWinningLine;
     }
 
     private checkColumns(symbols: string): boolean {
-      let hasWinningColumn = false;
+        let hasWinningColumn = false;
 
-      this.squares.forEach((_, columnIndex) => {
-        let col = '';
+        this.squares.forEach((_, columnIndex) => {
+            let col = "";
 
-        this.squares.forEach((__, rowIndex) => {
-          col += this.squares[rowIndex][columnIndex];
+            this.squares.forEach((__, rowIndex) => {
+                col += this.squares[rowIndex][columnIndex];
+            });
+
+            if (col === symbols) {
+                hasWinningColumn = true;
+            }
         });
 
-        if (col === symbols) {
-          hasWinningColumn = true;
-        }
-      });
-
-      return hasWinningColumn;
+        return hasWinningColumn;
     }
 
     private checkDiagonals(symbols: string): boolean {
-      const middleRow = 1;
-      const middleColumn = 1;
-      const up = middleRow - 1;
-      const down = middleRow + 1;
-      const left = middleColumn - 1;
-      const right = middleColumn + 1;
+        const middleRow = 1;
+        const middleColumn = 1;
+        const up = middleRow - 1;
+        const down = middleRow + 1;
+        const left = middleColumn - 1;
+        const right = middleColumn + 1;
 
-      let hasWinningDiagonal = false;
+        let hasWinningDiagonal = false;
 
-      const middleValue = this.getValue(middleRow, middleColumn);
+        const middleValue = this.getValue(middleRow, middleColumn);
 
-      const upperLeft = this.getValue(up, left);
-      const downRight = this.getValue(down, right);
+        const upperLeft = this.getValue(up, left);
+        const downRight = this.getValue(down, right);
 
-      const mainDiagonal = [upperLeft, middleValue, downRight];
+        const mainDiagonal = [upperLeft, middleValue, downRight];
 
-      if (mainDiagonal.join('') === symbols) {
-        hasWinningDiagonal = true;
-      }
+        if (mainDiagonal.join("") === symbols) {
+            hasWinningDiagonal = true;
+        }
 
-      const upperRight = this.getValue(up, right);
-      const downLeft = this.getValue(down, left);
+        const upperRight = this.getValue(up, right);
+        const downLeft = this.getValue(down, left);
 
-      const secondaryDiagonal = [upperRight, middleValue, downLeft];
+        const secondaryDiagonal = [upperRight, middleValue, downLeft];
 
-      if (secondaryDiagonal.join('') === symbols) {
-        hasWinningDiagonal = true;
-      }
+        if (secondaryDiagonal.join("") === symbols) {
+            hasWinningDiagonal = true;
+        }
 
-      return hasWinningDiagonal;
+        return hasWinningDiagonal;
     }
 }

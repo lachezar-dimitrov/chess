@@ -1,64 +1,36 @@
-# Available Scripts
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-In the project directory, you can run:
+## Getting Started
 
-### `npm start`
+First, run the development server:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### `npm test`
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-### `npm run e2e`
+## Learn More
 
-Launches the nightwatch tests. The project should be running at [http://localhost:3000](http://localhost:3000). It does not run in watch mode.
+To learn more about Next.js, take a look at the following resources:
 
-### `npm run build`
+-   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+-   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Deploy on Vercel
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-
-# Unit Testing Plan
-## Store
-### `AppStore`
-#### `get status()`:
-1. should show the next player
-1. should change the status only when win occur
-1. should change the draw status only when draw occur
-
-#### `handleBoxClick()`:
-1. should set the correct winner if there is a winner
-1. should increase the win counter to the winner
-1. should increase the loss counter to the losers
-1. should increase the draw counter when draw occur
-
-### `Board`
-#### `calculateTheWinner()`:
-1. should return empty string if there is no winner
-1. should return the symbol of the winner horizontally
-1. should return the symbol of the winner vertically
-1. should return the symbol of the winner diagonally
-
-## Components
-
-### `Box`:
-1. should change the box value with the symbol of the current player
-1. should not change the box value if it is called twice
-
-
-# Nightwatch Testing Plan
-1. should change the status when a draw occur
-1. should change the status when one of the players win
-1. should not allow clicking on the board when the game ends (win or draw)
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
