@@ -1,4 +1,4 @@
-import { action, observable, makeObservable, computed } from "mobx";
+// import { action, observable, makeObservable, computed } from "mobx";
 import {
     INITIAL_TURNS,
     INITIAL_DRAWS,
@@ -14,21 +14,28 @@ import History from "./models/History";
 import { DRAW_MESSAGE, NEXT_PLAYER, WINNER_MESSAGE } from "../constants/texts";
 
 export default class AppStore {
-    @observable turns: number;
-    @observable draws: number;
-    @observable winnerSymbol: string;
-    @observable currentPlayerIndex: number;
+    // // @observable
+    turns: number;
+    // @observable
+    draws: number;
+    // @observable
+    winnerSymbol: string;
+    // @observable
+    currentPlayerIndex: number;
 
-    @observable board: Board;
-    @observable history: History;
-    @observable players: Array<Player>;
+    // @observable
+    board: Board;
+    // @observable
+    history: History;
+    // @observable
+    players: Array<Player>;
 
     constructor(
         board = new Board(),
         history = new History(),
         players = [new Player(DEFAULT_PLAYER_ONE_SIGN), new Player(DEFAULT_PLAYER_TWO_SIGN)],
     ) {
-        makeObservable(this);
+        // makeObservable(this);
 
         this.board = board;
         this.history = history;
@@ -40,7 +47,8 @@ export default class AppStore {
         this.currentPlayerIndex = INITIAL_PLAYER_INDEX;
     }
 
-    @computed get status(): string {
+    // @computed
+    get status(): string {
         const { draws, players, winnerSymbol, currentPlayerIndex } = this;
 
         if (winnerSymbol) {
@@ -53,7 +61,8 @@ export default class AppStore {
         return `${NEXT_PLAYER}: ${players[currentPlayerIndex].symbol}`;
     }
 
-    @action.bound handleBoxClick(row: number, column: number, value: string): void {
+    // @action.bound
+    handleBoxClick(row: number, column: number, value: string): void {
         if (!this.winnerSymbol && !this.board.getValue(row, column)) {
             this.turns += 1;
 
@@ -77,5 +86,3 @@ export default class AppStore {
         }
     }
 }
-
-export const store = new AppStore();

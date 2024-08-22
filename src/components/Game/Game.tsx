@@ -1,5 +1,6 @@
-"use-client";
+"use client";
 
+import AppStore from "@/store/AppStore";
 import { RULES } from "../../constants/texts";
 import Board from "../../containers/Game/Board/Board";
 import Player from "../../store/models/Player";
@@ -8,9 +9,13 @@ export interface GameProps {
     draws: number;
     status: string;
     players: Array<Player>;
+    //TODO Remove later
+    store: AppStore;
 }
 
-export default function Game({ draws, status, players }: GameProps) {
+export default function Game({ draws, status, players, store }: GameProps) {
+    const board = store.board;
+
     const renderHistory = (): React.ReactNode => {
         const renderWins = (player: Player): React.ReactNode => (
             <div data-test={`wins-${player.symbol.toLowerCase()}`}>
@@ -44,7 +49,7 @@ export default function Game({ draws, status, players }: GameProps) {
                 {RULES}
             </div>
             {renderHistory()}
-            <Board />
+            <Board board={board} store={store} />
         </div>
     );
 }

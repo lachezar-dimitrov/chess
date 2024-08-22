@@ -1,20 +1,23 @@
-import { action, computed, observable, makeObservable } from "mobx";
+// import { action, computed, observable, makeObservable } from "mobx";
 import { NUMBER_OF_ROWS, NUMBER_OF_COLUMNS } from "../constants/DefaultValues";
 
 export default class Board {
-    @observable private squares: Array<Array<string>>;
+    // @observable
+    private squares: Array<Array<string>>;
 
     constructor(squares = Array(NUMBER_OF_ROWS).fill(Array(NUMBER_OF_COLUMNS).fill(""))) {
-        makeObservable(this);
+        // makeObservable(this);
 
         this.squares = squares;
     }
 
-    @action.bound setValue(row: number, column: number, value: string): void {
+    // @action.bound
+    setValue(row: number, column: number, value: string): void {
         this.squares[row][column] = value;
     }
 
-    @computed get allSquares(): Array<Array<string>> {
+    // @computed
+    get allSquares(): Array<Array<string>> {
         return this.squares;
     }
 
